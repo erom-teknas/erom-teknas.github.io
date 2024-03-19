@@ -14,9 +14,9 @@ timezone: America/Toronto
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: "TeKnAs" # the main title
+title: "Sanket More" # the main title
 
-tagline: "Personal Projects" # it will display as the sub-title
+tagline:  # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   devOps technical blogs.
@@ -42,7 +42,7 @@ social:
     - https://github.com/erom-teknas # change to your github homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
-    # - https://www.linkedin.com/in/username
+    - https://www.linkedin.com/in/eromteknas
 
 google_site_verification: # fill in to your verification string
 
@@ -66,7 +66,7 @@ goatcounter:
 #     light  - Use the light color scheme
 #     dark   - Use the dark color scheme
 #
-theme_mode: # [light | dark]
+theme_mode:  #[dark | light]
 
 # The CDN endpoint for images.
 # Notice that once it is assigned, the CDN url
