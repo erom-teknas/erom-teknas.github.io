@@ -1,8 +1,8 @@
 ---
 title: Kubernetes Cluster using Vagrant virtual machine
 date: 2024-03-18 12:00:00 -500
-categories: [kubernetes,cluster]
-tags: [vmclusters, kubernetes, multinode]
+categories: [kubernetes]
+tags: [vmclusters, kubernetes, multinodes, vagrant]
 ---
 ### **Setting Up a Kubernetes Cluster with Vagrant:** <br>
 <p>This webpage provides a comprehensive guide detailing the process of setting up a Kubernetes cluster on virtual machines using Vagrant.<br>
