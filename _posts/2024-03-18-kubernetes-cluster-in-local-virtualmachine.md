@@ -220,6 +220,9 @@ kubectl -n kube-system edit ds weave-net
 ```sh
 	kubectl get nodes
 ```
+![alt text](image.png)
+![alt text](image-1.png)
+
 #### **That's it congratulations on setting up your own Kubernetes cluster, try creating your own apps/pods and trying running them**
 
 ##### References
