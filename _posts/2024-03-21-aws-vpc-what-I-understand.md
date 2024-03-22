@@ -6,7 +6,7 @@ tags: [VPC, subnets, security groups, routing table, internet gateway]
 ---
 ### Please go through Network basics before going through this article to better understand [here]({% link _posts/2024-03-20-ipv4-sunet-cidr-what-I-understand.md %}) <br>
 
-### VPC 
+### VPC in AWS
 - A default VPC is created as soon as an account is created in AWS.
 - A VPC is created in a region and has access to all the availability zones in that region.
 - By default you can create 5 VPCs in a region, but can request AWS to increase the limit.
