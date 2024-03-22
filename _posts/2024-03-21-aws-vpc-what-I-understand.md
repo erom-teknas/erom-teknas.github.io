@@ -1,0 +1,114 @@
+---
+title: AWS VPC understanding with hands-on practice
+date: 2024-03-21
+categories: [AWS]
+tags: [VPC, subnets, security groups, routing table, internet gateway]
+---
+### Please go through Network basics before going through this article to better understand [here]({% link _posts/2024-03-20-ipv4-sunet-cidr-what-I-understand.md %}) <br>
+
+### VPC 
+- A default VPC is created as soon as an account is created in AWS.
+- A VPC is created in a region and has access to all the availability zones in that region.
+- By default you can create 5 VPCs in a region, but can request AWS to increase the limit.
+
+### Subnets
+- A subnet is created in a VPC and is specific to an AZ and we can create multiple subnets.
+- It is a subset of VPC hence subnet and resources like EC2 etc are created inside subnet.
+- Each subnet must reside within one AZ and cannot span zones.
+- Subnets can be either public or private, this is determined by the routing table configuration (which we will talk later in the section).
+
+### Internet gateway
+- An Internet gateway sits in VPC and is required for connection to the internet.
+- Hence, when a default VPC is created you will see a default internet gateway created with it.
+- Public subnets are connected to the internet gateway and can send and receiving messages to internet.
+
+### Routing tables
+- While creating a routing table you have to create it under a VPC.
+- There can be multiple routing tables in the VPC.
+- Like said earlier, routing tables define if the subnet is private or public, i.e. route tables need to have subnet associations.
+- The subnet is private or public is based on the route table, it has two parts destination and target, i.e. what is the destination and what is the next target to reach the destination.
+   - so for the destination with a VPC eg (10.0.0.0/16) the target will be local route.
+   - and for destination with 0.0.0.00 i.e. the internet the target will be the internet gateway, because as said earlier, Internet gateway is the one that talks to the internet from the VPC.
+
+### Network Access Control lists
+- The NACLs are on the subnet levels.
+- These are nothing but the firewall rules that you apply on the subnet itself, in order to better control what goes to the resources.
+- These are configured using the IP ranges.
+- They follow rule numbers, so if one rule number is 10 and other rule number is 20, 10 will take precedence over 20.
+- Let's say we have rule 10 and 20 as below:
+  - | Rule # | Type             | Protocol | Port range | Source      | Allow/Deny |
+    |--------|------------------|----------|------------|-------------|------------|
+    | 10     | All IPv4 traffic | All      | All        | 0.0.0.0/0   | ALLOW      |
+    | 20     | All IPv4 traffic | All      | All        | 0.0.0.0/0   | DENY       |
+    | *      | All IPv4 traffic | All      | All        | 0.0.0.0/0   | DENY       |
+
+  - Rule 10 will take precedence over rule 20 and * is a default rule, that means if a packet that doesn't match any rules it will go to the default rule and deny it.
+
+  - Let's take another example:
+  - | Rule # | Type             | Protocol | Port range | Source      | Allow/Deny |
+    |--------|------------------|----------|------------|-------------|------------|
+    | 10     | All IPv4 traffic | All      | 80         | 0.0.0.0/0   | DENY       |
+    | 20     | All IPv4 traffic | All      | All        | 0.0.0.0/0   | ALLOW      |
+    | *      | All IPv4 traffic | All      | All        | 0.0.0.0/0   | DENY       |
+  - In this case the connection from internet on port 80 will be denied even after having a Allow on rule 20, as 10 takes precedence.
+
+### Security Groups
+- Security groups are something that are at even granuler level and are applied to the resource like EC2.
+- You can allow and deny inbound/outbound in security groups.
+- The source can be another IP range, security group or load balancer etc.
+- This is the lowest level of control that can be applied to the EC2 instance.
+
+### Below diagram depicts whatever we have mentioned above and now lets build something based on this(instead of using all three AZs, we will use two for hands-on and 2 EC2s one public and other private to see how it behaves):
+![get-pods](/assets/images/aws/vpc/VPC.drawio.png)
+
+
+### Hands on exercise
+
+### Let's create the VPC other than the default VPC as below
+![VPC](/assets/images/aws/vpc/vpc-create.png)
+- With IPv4 CIDR range as 10.0.0.0/16 meaning first two octets are fixed and the resources inside this VPC will be part of this IP range.
+
+### Lets now create private and public subnets in two different AZs in the VPC, with the ranges as below:
+![Subnets](/assets/images/aws/vpc/subnet-create.png)
+- | subnet            | range       |
+  |-------------------|-------------|
+  | private-subnet-1a | 10.0.3.0/24 |
+  | public-subnet-1a  | 10.0.1.0/24 |
+  | private-subnet-1b | 10.0.4.0/24 |
+  | public-subnet-1b  | 10.0.2.0/24 |
+- Observe that IPv4 CIDR range for the subnet is /24, that means its going to the subset of the VPC that we have created above and you cannot create the subnet without it being the subset of the VPC.
+- And by default we would have had 254 addresses, but AWS reserves 4 addresses hence in each subnet we have about 251 avaiable IP addresses.
+- Also, like we discussed earlier the subnet itself doesn't determine if it is a public or private subnet, it needs to be associated with the routing table to determine that.
+
+### Ok, now we move to the Routing tables (We see two RTs, one is the main RT and the other which we have created:
+![Main RT](/assets/images/aws/vpc/main-RT.png)
+![Main routes](/assets/images/aws/vpc/main-routes.png)
+- The main route table will have public subnet associations only and we will remove any private subnets from the associations
+- The main route table will have the destination as the internet (0.0.0.0/0) with target route as our internet gateway (which we will talk in next section).
+- Any internal traffic will use the local route that is the VPC IPv4 range.
+
+![Private RT](/assets/images/aws/vpc/route-table-create.png)
+![Private routes](/assets/images/aws/vpc/privateroutes.png)
+- The private route table will have private subnet associations only.
+- This will not send anything outside to the public network and everything will be in internal traffic,
+- Hence, the destination is the VPC range and target is local.
+
+### Internet gateway
+![IGW](/assets/images/aws/vpc/igw.png)
+- The new Internet Gateway will be attached to the VPC that we have created, as per the diagram the IGW is attached to the VPC for connection with the internet.
+
+### Create 2 EC2s, one in private and another in public subet
+#### EC2 in Private Subnet
+![PrivateEC2](/assets/images/aws/vpc/ec2pri-vpc.png)
+![PrivateEC2](/assets/images/aws/vpc/privateec2.png)
+- We will create the EC2 instance in one of the one subet and attach a security group to it such that port 22 and 80 are accessible from anywhere.
+- Let's see if we able to connect and we are not, that because our configuration doesn't allow resources in the private subnet to talk to outside world.
+![PrivateBrowser](/assets/images/aws/vpc/privateBrowser.png)
+
+#### EC2 in Public Subnet
+- Let's do the same thing, but this time instead of creating the EC2 instance in private network create in public network.
+- Attach a security group to it such that port 22 and 80 are accessible from anywhere.
+- Let's see if we able to connect and yes we are able to connect, that's because the public subnets have access to the internet via IGW.
+![PrivateBrowser](/assets/images/aws/vpc/ec2pub.png)
+
+## And, that's all for the Basics of AWS VPC, hope you guys were able to understand VPC and other aspects of it.
