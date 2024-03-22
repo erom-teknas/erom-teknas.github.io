@@ -6,12 +6,6 @@ order: 4
 # About Me
 Hello there! 👋 I'm Sanket Vilas More, a seasoned DevOps engineer with over 13 years of experience in the industry. I'm passionate about leveraging cutting-edge technologies to streamline development processes and drive continuous improvement.
 
-## What I Do
-My expertise lies in orchestrating seamless deployment pipelines and optimizing infrastructure to support agile development practices. Here are some of the key technologies I specialize in:
-
-AWS, Kubernetes, Ansible, Terraform, Azure DevOps, GitHub, OpenShift
-
-
 ## Certifications
 
 
