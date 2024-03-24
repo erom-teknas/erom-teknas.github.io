@@ -1,7 +1,7 @@
 ---
 title: AWS architecture using Terraform (VPC, private/public subnet, internet/natgateway, security groups )
 date: 2024-03-24
-categories: [AWS, Terraform]
+categories: [AWS]
 tags: [VPC, subnets, security groups, routing table, internet gateway]
 ---
 
