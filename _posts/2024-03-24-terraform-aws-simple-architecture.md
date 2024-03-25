@@ -253,4 +253,4 @@ Remember to manage your infrastructure responsibly and destroy resources when th
 That's it! Have fun exploring my awesome setup! If you need anything, just give me a shout! 😊
 
 ## If you need the repository access to make it easy, please find the repo link below (With detailed instructions):
-https://github.com/erom-teknas/Terraform-single-az
+[GITHUB](https://github.com/erom-teknas/Terraform-single-az)
