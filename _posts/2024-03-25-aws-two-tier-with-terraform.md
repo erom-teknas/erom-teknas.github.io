@@ -2,7 +2,7 @@
 title: AWS 2 tier architecture using Terraform
 date: 2024-03-25
 categories: [AWS]
-tags: [VPC, subnets, security groups, routing table, internet gateway, Terraform]
+tags: [VPC, subnets, security groups, routing table, internet gateway, terraform]
 ---
 
 # 🚀 Welcome to our AWS Deployment with Terraform! 🌟
