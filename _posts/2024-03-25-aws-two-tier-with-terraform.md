@@ -100,4 +100,4 @@ Enhancing functionality:
 With this comprehensive setup, our Demo Application is poised for success in the AWS cloud as a two-tier architecture! ✨🌟💫
 
 ## Please find the repository link below:
-https://github.com/erom-teknas/two-tier-aws-terraform
+[GITHUB](https://github.com/erom-teknas/two-tier-aws-terraform)
