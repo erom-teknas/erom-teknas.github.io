@@ -1,5 +1,5 @@
 ---
-title: AWS single AZ architecture using Terraform (VPC, private/public subnet, internet/natgateway, security groups )
+title: AWS single AZ architecture using Terraform
 date: 2024-03-24
 categories: [AWS]
 tags: [VPC, subnets, security groups, routing table, internet gateway]
