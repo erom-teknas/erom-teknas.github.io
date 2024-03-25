@@ -1,5 +1,5 @@
 ---
-title: AWS architecture using Terraform (VPC, private/public subnet, internet/natgateway, security groups )
+title: AWS single AZ architecture using Terraform (VPC, private/public subnet, internet/natgateway, security groups )
 date: 2024-03-24
 categories: [AWS]
 tags: [VPC, subnets, security groups, routing table, internet gateway]
@@ -252,7 +252,5 @@ Remember to manage your infrastructure responsibly and destroy resources when th
 
 That's it! Have fun exploring my awesome setup! If you need anything, just give me a shout! 😊
 
-## If you need the repository access to make it easy, please find the repo link below:
-```git
-git clone https://github.com/erom-teknas/Terraform-single-az.git
-```
+## If you need the repository access to make it easy, please find the repo link below (With detailed instructions):
+https://github.com/erom-teknas/Terraform-single-az
