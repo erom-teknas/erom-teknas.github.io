@@ -2,13 +2,13 @@
 title: AWS 2 tier architecture using Terraform
 date: 2024-03-25
 categories: [AWS]
-tags: [VPC, subnets, security groups, routing table, internet gateway, terraform]
+tags: [vpc, subnets, security groups, routing table, internet gateway, terraform]
 ---
 
 # 🚀 Welcome to our AWS Deployment with Terraform! 🌟
 
 This Terraform script orchestrates the creation of a robust AWS infrastructure for our **Demo Application** following a two-tier architecture. (note: We are not working on S3 in this demo, hence please ignore S3 from the below diagram)
-![alt text](../assets/images/aws/vpc/tf-2-tier/tf-2-tier-aws.png)
+![alt text](../assets/images/aws/tf-2-tier/tf-2-tier-aws.png)
 ## 🌐 Network Configuration
 
 We're setting up the network foundation:
