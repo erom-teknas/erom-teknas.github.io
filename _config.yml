@@ -29,7 +29,7 @@ github:
   username: erom-teknas # change to your github username
 
 #twitter:
-  username:  # change to your twitter username
+#  username:  # change to your twitter username
 
 social:
   # Change to your full name.
@@ -37,11 +37,7 @@ social:
   name: Sanket More
   email: erom.teknas@gmail.com # change to your email address
   links:
-    # The first element serves as the copyright owner's link
-    #- https://twitter.com/username # change to your twitter homepage
-    - https://github.com/erom-teknas # change to your github homepage
-    # Uncomment below to add more social links
-    # - https://www.facebook.com/username
+    - https://github.com/erom-teknas 
     - https://www.linkedin.com/in/eromteknas
 
 google_site_verification: # fill in to your verification string
@@ -76,7 +72,7 @@ theme_mode:  #[dark | light]
 img_cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar: https://media.licdn.com/dms/image/C4E03AQGDVSR0aKDkrA/profile-displayphoto-shrink_800_800/0/1556844279546?e=1716422400&v=beta&t=N37uEl6DuUN9WUZ_bcik83iNjIDwCZgxGVnL1vEZ_io
+avatar: assets/images/me/me.jpg
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
