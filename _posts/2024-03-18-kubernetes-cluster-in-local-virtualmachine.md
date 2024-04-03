@@ -1,7 +1,7 @@
 ---
 title: Kubernetes Cluster using Vagrant virtual machine
 date: 2024-03-18 12:00:00 -500
-categories: [Kubernetes, Cluster]
+categories: [🐳 Kubernetes, 🛸 Cluster]
 tags: [vmclusters, kubernetes, multinodes, vagrant]
 ---
 ### **Setting Up a Kubernetes Cluster with Vagrant:** <br>
@@ -220,8 +220,10 @@ kubectl -n kube-system edit ds weave-net
 ```sh
 	kubectl get nodes
 ```
-![get-nodes](/assets/images/kube/get-nodes.png)
-![get-pods](/assets/images/kube/get-pods.png)
+![get-nodes](/assets/images/kube/get-nodes.png){: width="700" height="300" .shadow .light }
+![alt text](/assets/images/kube/get-nodes-darkmode.png){: width="700" height="400" .shadow .dark }
+![get-pods](/assets/images/kube/get-pods.png){: width="700" height="300" .shadow .light }
+![alt text](/assets/images/kube/get-pods-darkmode.png){: width="700" height="400" .shadow .dark }
 
 #### **That's it congratulations on setting up your own Kubernetes cluster, try creating your own apps/pods and trying running them**
 

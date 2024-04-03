@@ -1,12 +1,13 @@
 ---
 title: AWS single AZ architecture using Terraform
 date: 2024-03-24
-categories: [AWS, Architecture]
+categories: [🌀 AWS, 🏰 Architecture]
 tags: [vpc, subnets, security groups, routing table, internet gateway]
 ---
 
 ### We are going to create the following architecture using Terraform
-![alt text](../assets/images/aws/terraform-aws/Terraform_AWS_Single_AZ.png)
+![alt text](../assets/images/aws/terraform-aws/Terraform_AWS_Single_AZ.png){: width="700" height="300" .shadow .light }
+![alt text](../assets/images/aws/terraform-aws/Terraform_AWS_Single_AZ-darkmode.png){: width="700" height="400" .shadow .dark }
 
 My setup includes:
 
