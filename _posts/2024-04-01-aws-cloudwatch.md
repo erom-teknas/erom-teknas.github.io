@@ -6,7 +6,7 @@ tags: [cloudwatch, monitoring, alarm, logs]
 ---
 
 # 🔍 Exploring the Power of AWS Monitoring
-Discover the capabilities and benefits of AWS CloudWatch, AWS X-Ray and AWS CloudTrail for comprehensive monitoring and observability of your AWS infrastructure and applications.
+Discover the capabilities and benefits of AWS CloudWatch for comprehensive monitoring and observability of your AWS infrastructure and applications.
 
 
 ## AWS CloudWatch 🌟
@@ -92,18 +92,19 @@ aws cloudwatch set-alarm-state --alarm-name "EC2-Trigger-Alarm" --state-value AL
 ![alt text](../assets/images/aws/monitoring/alarm/5-darkmode.png){: width="700" height="400" .shadow .dark }
 
 
-## AWS EventBridge
-- Events from the AWS services can be used to trigger other services, like if EC2 instance starts then we want to lauch a lambda function etc.
+## AWS EventBridge 🎉
+- Events from the AWS services can be used to trigger other services, like if EC2 instance stops or terminated then we want to send an SNS notification.
 - This can be a schedule cronjob as well to trigger the target service.
-
-
-
-## AWS X-Ray 🕵️‍♂️
-
-- Troubleshoot performance of applications and errors
-- Tracing of microservices
-
-## AWS CloudTrail 🛤️
-
-- API call monitoring
-- Changes to resources by users
+- Let's us now create the event bridge to send an email when any EC2 gets stopped or terminated.
+![alt text](../assets/images/aws/eventbridge/1.png){: width="700" height="300" .shadow .light }
+![alt text](../assets/images/aws/eventbridge/1-darkmode.png){: width="700" height="400" .shadow .dark }
+![alt text](../assets/images/aws/eventbridge/2.png){: width="700" height="300" .shadow .light }
+![alt text](../assets/images/aws/eventbridge/2-darkmode.png){: width="700" height="400" .shadow .dark }
+![alt text](../assets/images/aws/eventbridge/3.png){: width="700" height="300" .shadow .light }
+![alt text](../assets/images/aws/eventbridge/3-darkmode.png){: width="700" height="400" .shadow .dark }
+![alt text](../assets/images/aws/eventbridge/4.png){: width="700" height="300" .shadow .light }
+![alt text](../assets/images/aws/eventbridge/4-darkmode.png){: width="700" height="400" .shadow .dark }
+![alt text](../assets/images/aws/eventbridge/5.png){: width="700" height="300" .shadow .light }
+![alt text](../assets/images/aws/eventbridge/5-darkmode.png){: width="700" height="400" .shadow .dark }
+![alt text](../assets/images/aws/eventbridge/6.png){: width="700" height="300" .shadow .light }
+![alt text](../assets/images/aws/eventbridge/6-darkmode.png){: width="700" height="400" .shadow .dark }
