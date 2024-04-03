@@ -1,7 +1,7 @@
 ---
 title: AWS single AZ architecture using Terraform
 date: 2024-03-24
-categories: [AWS, Architecture]
+categories: [🌀 AWS, 🏰 Architecture]
 tags: [vpc, subnets, security groups, routing table, internet gateway]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Understanding Network IPv4, Subnet masking, CIDR basics
 date: 2024-03-20
-categories: [AWS, Network]
+categories: [🌀 AWS, 🌐 Network]
 tags: [subnets, cidr, IP, basics]
 ---
 ### **Lets understand the structure of IPv4 address** <br>
