@@ -156,8 +156,13 @@ Following are the steps to setup automated EC2 management system using AWS Lambd
     ![alt text](../assets/images/aws/cost-op/stop-ec2-darkmode.png){: width="700" height="300" .shadow .dark }
     ![alt text](../assets/images/aws/cost-op/stop-ec2-1-darkmode.png){: width="700" height="300" .shadow .dark }
 - **Amazon SNS Topic**: Create an SNS topic to which notification alerts will be sent upon successful start and stop actions of EC2 instances. Obtain the ARN (Amazon Resource Name) of this topic for use in your Lambda functions.
-    - For this we will reuse the same eventbridge we have created [here](2024-04-01-aws-cloudwatch.md) section *AWS EventBridge* 🎉
+    - For this we will reuse the same eventbridge we have created  [here]({% link _posts/2024-04-01-aws-cloudwatch.md %}) (section **AWS EventBridge** 🎉)
 
+- **Result**: EC2 is shut down after office hours and email notification is sent about the EC2 event shutown
+![alt text](../assets/images/aws/cost-op/ec2-shutdown.png){: width="700" height="300" .shadow .light }
+![alt text](../assets/images/aws/cost-op/ec2-shutdown-darkmode.png){: width="700" height="300" .shadow .dark }
+![alt text](../assets/images/aws/cost-op/email.png){: width="700" height="300" .shadow .light }
+![alt text](../assets/images/aws/cost-op/email-darkmode.png){: width="700" height="300" .shadow .dark }
 ### IAM Role Configuration (Points to remember)
 - 🤝 Create an IAM role with permissions of Lambda to Cloudwatch, EC2 and VPC.
 - 📜 Attach the IAM role to eventbridge to call the lambda functions.
