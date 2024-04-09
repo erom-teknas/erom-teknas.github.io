@@ -4,8 +4,12 @@ date: 2024-04-08
 categories: [🌤️ Terraform, ☁️ Cloud]
 tags: [aws]
 ---
+
+## Terraform Cloud 🌤️
+ Streamlining infrastructure management with ease and efficiency.
+
 ## Overview 📝
-Terraform Cloud: A collaborative, scalable platform for managing infrastructure as code seamlessly. In this project we will utilize the existing aws single architecture from the existing project, but we will utilize the terraform cloud to create the architecture, the project we will use is [GITHUB](https://github.com/erom-teknas/Terraform-single-az)
+A collaborative, scalable platform for managing infrastructure as code seamlessly. In this project we will utilize the existing aws single architecture from the existing project, but we will utilize the terraform cloud to create the architecture, the project we will use is [GITHUB](https://github.com/erom-teknas/Terraform-single-az)
 
 ## Features ✨
 - **Infrastructure as Code (IaC)**: Define and manage AWS resources using Terraform configuration files.
