@@ -10,8 +10,8 @@ Achieve efficient resource allocation and maximize cost-effectiveness in your AW
 
 ## Overview 📝
 This project provides step by step guide to effectively shutdown the development EC2 instances which are not going to be used after hours and start them during weekdays at 8:00 AM
-![alt text](../assets/images/aws/cost-op/costop.png){: width="700" height="300" .shadow .light }
-![alt text](../assets/images/aws/cost-op/costop-darkmode.png){: width="700" height="300" .shadow .dark }
+![alt text](../assets/images/aws/cost-op/costop.png){: width="700" height="400" .shadow .light }
+![alt text](../assets/images/aws/cost-op/costop-darkmode.png){: width="700" height="400" .shadow .dark }
 ## Features ✨
 
 - **Automated EC2 Management**: Utilize AWS Lambda functions triggered by Amazon EventBridge to automatically start and stop your EC2 instances at specific times, such as 8:00 am and 6:00 pm.
@@ -22,17 +22,17 @@ This project provides step by step guide to effectively shutdown the development
 ## Setup Instructions 🚧
 Following are the steps to setup automated EC2 management system using AWS Lambda, Amazon EventBridge, and Amazon SNS:
 - **VPC**: Let's create a VPC, with a public, private subnet, a internet gateway and nat gateway.
-![alt text](../assets/images/aws/cost-op/vpc.png){: width="700" height="300" .shadow .light }
-![alt text](../assets/images/aws/cost-op/vpc-darkmode.png){: width="700" height="300" .shadow .dark }
+![alt text](../assets/images/aws/cost-op/vpc.png){: width="700" height="400" .shadow .light }
+![alt text](../assets/images/aws/cost-op/vpc-darkmode.png){: width="700" height="400" .shadow .dark }
 - **EC2 Instances**: Create EC2 instances that you want to manage automatically(in private subnet). Note down the instance tags (env:dev) that will be used to identify these instances in your Lambda functions.
-![alt text](../assets/images/aws/cost-op/ec2.png){: width="700" height="300" .shadow .light }
-![alt text](../assets/images/aws/cost-op/ec2-darkmode.png){: width="700" height="300" .shadow .dark }
+![alt text](../assets/images/aws/cost-op/ec2.png){: width="700" height="400" .shadow .light }
+![alt text](../assets/images/aws/cost-op/ec2-darkmode.png){: width="700" height="400" .shadow .dark }
 - **Lambda Functions**: Create Lambda functions responsible for starting and stopping EC2 instances. These functions will be triggered by EventBridge rules based on scheduled events.
     - stop-ec2-dev-instance
-![alt text](../assets/images/aws/cost-op/lambda-config-1.png){: width="700" height="300" .shadow .light }
-![alt text](../assets/images/aws/cost-op/lambda-config-1-darkmode.png){: width="700" height="300" .shadow .dark }
-![alt text](../assets/images/aws/cost-op/lambda-config-2.png){: width="700" height="300" .shadow .light }
-![alt text](../assets/images/aws/cost-op/lambda-config-2-darkmode.png){: width="700" height="300" .shadow .dark }
+![alt text](../assets/images/aws/cost-op/lambda-config-1.png){: width="700" height="400" .shadow .light }
+![alt text](../assets/images/aws/cost-op/lambda-config-1-darkmode.png){: width="700" height="400" .shadow .dark }
+![alt text](../assets/images/aws/cost-op/lambda-config-2.png){: width="700" height="400" .shadow .light }
+![alt text](../assets/images/aws/cost-op/lambda-config-2-darkmode.png){: width="700" height="400" .shadow .dark }
 
     ```python
     import boto3
@@ -87,10 +87,10 @@ Following are the steps to setup automated EC2 management system using AWS Lambd
     # lambda_handler(None, None)
 ```
     - start-ec2-dev-instance: Create a lambda function in the same VPC as EC2 and in the private subnet.
-![alt text](../assets/images/aws/cost-op/lambda-config-1.png){: width="700" height="300" .shadow .light }
-![alt text](../assets/images/aws/cost-op/lambda-config-1-darkmode.png){: width="700" height="300" .shadow .dark }
-![alt text](../assets/images/aws/cost-op/lambda-config-2.png){: width="700" height="300" .shadow .light }
-![alt text](../assets/images/aws/cost-op/lambda-config-2-darkmode.png){: width="700" height="300" .shadow .dark }
+![alt text](../assets/images/aws/cost-op/lambda-config-1.png){: width="700" height="400" .shadow .light }
+![alt text](../assets/images/aws/cost-op/lambda-config-1-darkmode.png){: width="700" height="400" .shadow .dark }
+![alt text](../assets/images/aws/cost-op/lambda-config-2.png){: width="700" height="400" .shadow .light }
+![alt text](../assets/images/aws/cost-op/lambda-config-2-darkmode.png){: width="700" height="400" .shadow .dark }
 
     ```python
     import boto3
@@ -146,23 +146,23 @@ Following are the steps to setup automated EC2 management system using AWS Lambd
 
 - **Amazon EventBridge Rules**: Set up EventBridge rules to schedule triggering of Lambda functions at specific times (e.g., 8:00 am and 6:00 pm) to start and stop EC2 instances.
     - start-ec2-dev-instance:
-    ![alt text](../assets/images/aws/cost-op/start-ec2.png){: width="700" height="300" .shadow .light }
-    ![alt text](../assets/images/aws/cost-op/start-ec2-1.png){: width="700" height="300" .shadow .light }
-    ![alt text](../assets/images/aws/cost-op/start-ec2-darkmode.png){: width="700" height="300" .shadow .dark }
-    ![alt text](../assets/images/aws/cost-op/start-ec2-1-darkmode.png){: width="700" height="300" .shadow .dark }
+![alt text](../assets/images/aws/cost-op/start-ec2.png){: width="700" height="400" .shadow .light }
+![alt text](../assets/images/aws/cost-op/start-ec2-darkmode.png){: width="700" height="400" .shadow .dark }
+![alt text](../assets/images/aws/cost-op/start-ec2-1.png){: width="700" height="400" .shadow .light }
+![alt text](../assets/images/aws/cost-op/start-ec2-1-darkmode.png){: width="700" height="400" .shadow .dark }
     - stop-ec2-dev-instance:
-    ![alt text](../assets/images/aws/cost-op/stop-ec2.png){: width="700" height="300" .shadow .light }
-    ![alt text](../assets/images/aws/cost-op/stop-ec2-1.png){: width="700" height="300" .shadow .light }
-    ![alt text](../assets/images/aws/cost-op/stop-ec2-darkmode.png){: width="700" height="300" .shadow .dark }
-    ![alt text](../assets/images/aws/cost-op/stop-ec2-1-darkmode.png){: width="700" height="300" .shadow .dark }
+![alt text](../assets/images/aws/cost-op/stop-ec2.png){: width="700" height="400" .shadow .light }
+![alt text](../assets/images/aws/cost-op/stop-ec2-darkmode.png){: width="700" height="400" .shadow .dark }
+![alt text](../assets/images/aws/cost-op/stop-ec2-1.png){: width="700" height="400" .shadow .light }
+![alt text](../assets/images/aws/cost-op/stop-ec2-1-darkmode.png){: width="700" height="400" .shadow .dark }
 - **Amazon SNS Topic**: Create an SNS topic to which notification alerts will be sent upon successful start and stop actions of EC2 instances. Obtain the ARN (Amazon Resource Name) of this topic for use in your Lambda functions.
     - For this we will reuse the same eventbridge we have created  [here]({% link _posts/2024-04-01-aws-cloudwatch.md %}) (section **AWS EventBridge** 🎉)
 
 - **Result**: EC2 is shut down after office hours and email notification is sent about the EC2 event shutown
-![alt text](../assets/images/aws/cost-op/ec2-shutdown.png){: width="700" height="300" .shadow .light }
-![alt text](../assets/images/aws/cost-op/ec2-shutdown-darkmode.png){: width="700" height="300" .shadow .dark }
-![alt text](../assets/images/aws/cost-op/email.png){: width="700" height="300" .shadow .light }
-![alt text](../assets/images/aws/cost-op/email-darkmode.png){: width="700" height="300" .shadow .dark }
+![alt text](../assets/images/aws/cost-op/ec2-shutdown.png){: width="700" height="400" .shadow .light }
+![alt text](../assets/images/aws/cost-op/ec2-shutdown-darkmode.png){: width="700" height="400" .shadow .dark }
+![alt text](../assets/images/aws/cost-op/email.png){: width="700" height="400" .shadow .light }
+![alt text](../assets/images/aws/cost-op/email-darkmode.png){: width="700" height="400" .shadow .dark }
 ### IAM Role Configuration (Points to remember)
 - 🤝 Create an IAM role with permissions of Lambda to Cloudwatch, EC2 and VPC.
 - 📜 Attach the IAM role to eventbridge to call the lambda functions.
