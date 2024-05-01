@@ -48,20 +48,23 @@ WSL Ubuntu is installed in your windows machine or using Ubuntu out of the box t
     ./config.sh
     ```
 - That's it now you should see the agent under your Default Agent pool but in offline state.
-![alt text](../assets/images/azure/agent.png){: width="700" height="400" .shadow .light }
-![alt text](../assets/images/azure/agent-darkmode.png){: width="700" height="400" .shadow .dark }
+        ![alt text](../assets/images/azure/agent.png){: width="700" height="400" .shadow .light }
+        ![alt text](../assets/images/azure/agent-darkmode.png){: width="700" height="400" .shadow .dark }
 - Now you can start the agent using the run script.
     ```shell
     cd ~/myagent
     ./run.sh
     ```
+
 ![alt text](../assets/images/azure/agent-1.png){: width="700" height="400" .shadow .light }
 ![alt text](../assets/images/azure/agent-1-darkmode.png){: width="700" height="400" .shadow .dark }
+
 - That's it now you have your own agent running, you can use this to build artifacts, in my case I wanted to build npm project, so installed npm
     ```shell
     sudo apt install npm
     ```
 - Try building the project with Azure pipelines, with pool configured as default. example:
+
     ```yaml
     trigger: 
     - main
