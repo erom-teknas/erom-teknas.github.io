@@ -9,8 +9,8 @@ tags: [azure, agents, pipeline]
 This documentation gives the details of steps to be followed for configuring self hosted agents for Azure pipelines.
 
 ## Pre-requisite  🚧
-Already have Azure pipeline account / organization.
-WSL Ubuntu is installed in your windows machine or using Ubuntu out of the box to be used as self-hosted agent.
+- Already have Azure pipeline account / organization.
+- WSL Ubuntu is installed in your windows machine or using Ubuntu out of the box to be used as self-hosted agent.
 
 ## Setup Instructions 🚧
 - Login to Azure devOps portal [here](https://dev.azure.com)
