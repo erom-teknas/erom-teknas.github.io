@@ -14,6 +14,11 @@ The first commit and the tenth merged PR are about 25 hours apart. I did not wri
 > "Vibe coding" is a fair label for how the code got typed. It is not a fair label for how it got checked. Every PR had to pass unit tests, database tests against the real migrations, and Playwright end to end runs, both against a local stand-in and against a real Supabase stack.
 {: .prompt-info }
 
+## How it fits together 🧭
+A group goes through setup once per challenge, then plays the same loop every day: check in, update the ledger, and refresh everyone's leaderboard. Switch the habit mode to see how shared and personal challenges pick their habits, and select a step for the detail.
+
+{% include flow.html id="pact" %}
+
 ## Stack 🧰
 - **Frontend:** React 19, Vite 8, TypeScript 6 and React Router. TanStack Query holds all server state; there is no Redux or Zustand. Styling is one token based CSS file (no Tailwind).
 - **PWA:** `vite-plugin-pwa` with `injectManifest` and a hand written service worker. It precaches only the app shell. Data always comes from Supabase over the network and is never served from the cache. Updates use `registerType: 'prompt'`, so a new version never swaps in under someone mid check-in.

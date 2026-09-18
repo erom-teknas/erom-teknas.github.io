@@ -11,3 +11,8 @@ initHeader();
 initDialogs();
 initPalette();
 initArticle();
+
+// Flow diagrams only appear in a few posts, so their code loads on demand.
+if (document.querySelector('[data-flow]')) {
+  import('./flow.js').then(({ initFlows }) => initFlows());
+}

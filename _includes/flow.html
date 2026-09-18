@@ -1,0 +1,76 @@
+{%- comment -%}
+  An interactive flow diagram: `{% include flow.html id="shorts-engine" %}`
+  renders `_data/flows/shorts-engine.yml`.
+
+  Data file:
+    title   Heading shown above the diagram.
+    modes   Optional variants (label + options[id, label]); a node listing
+            `modes: [id]` only exists in those. The first option is the default.
+    loops   Edges that run back up the flow: from, to (node ids), label.
+    nodes   In flow order. Each has id, label, summary (one line), detail
+            (Markdown) and optionally phase (starts a named group), kind
+            (stage | gate | store), where (what runs it), note (a short line
+            under the label), fail (what happens when a gate says no) and out
+            (what flows on to the next node).
+
+  Without JavaScript this is a plain ordered list with every detail showing;
+  `_js/flow.js` turns it into the diagram.
+{%- endcomment -%}
+{%- assign flow = site.data.flows[include.id] -%}
+{%- assign fid = 'flow-' | append: include.id -%}
+{%- assign default_mode = flow.modes.options.first.id -%}
+<figure class="flow" id="{{ fid }}" data-flow data-loops="{{ flow.loops | jsonify | escape }}" aria-labelledby="{{ fid }}-title"{% if default_mode %} data-mode="{{ default_mode }}"{% endif %}>
+<div class="flow-head">
+<p class="flow-title" id="{{ fid }}-title">{{ flow.title }}</p>
+<div class="flow-controls">
+{%- if flow.modes -%}
+<div class="flow-modes" role="group" aria-label="{{ flow.modes.label }}" data-flow-modes hidden>
+{%- for option in flow.modes.options -%}
+<button type="button" class="flow-mode" data-mode="{{ option.id }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ option.label }}</button>
+{%- endfor -%}
+</div>
+{%- endif -%}
+<button type="button" class="flow-play" data-flow-play hidden>{% include icon.html name="play" %}<span>Play</span></button>
+</div>
+</div>
+<div class="flow-body">
+<ol class="flow-list" data-flow-list>
+{%- for node in flow.nodes -%}
+{%- assign kind = node.kind | default: 'stage' -%}
+<li class="flow-step" data-step="{{ node.id }}" data-kind="{{ kind }}" data-label="{{ node.label | escape }}"{% if node.modes %} data-modes="{{ node.modes | join: ' ' }}"{% endif %}>
+{%- if node.phase -%}<p class="flow-phase">{{ node.phase }}</p>{%- endif -%}
+<button type="button" class="flow-node" id="{{ fid }}-{{ node.id }}" aria-controls="{{ fid }}-{{ node.id }}-panel">
+<span class="flow-marker" aria-hidden="true"></span>
+<span class="flow-label"><span class="flow-index" aria-hidden="true"></span>{{ node.label }}{% if kind != 'stage' %}<span class="visually-hidden"> ({{ kind }})</span>{% endif %}</span>
+{%- if node.where -%}<span class="flow-where">{{ node.where }}</span>{%- endif -%}
+{%- if node.note -%}<span class="flow-note">{{ node.note }}</span>{%- endif -%}
+</button>
+<div class="flow-panel" id="{{ fid }}-{{ node.id }}-panel">
+<p class="flow-summary">{{ node.summary | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
+<div class="flow-detail">{{ node.detail | markdownify }}</div>
+{%- if node.fail -%}
+<p class="flow-outcome is-fail">{% include icon.html name="prohibit" %}<span>{{ node.fail | markdownify | remove: '<p>' | remove: '</p>' | strip }}</span></p>
+{%- endif -%}
+{%- for loop in flow.loops -%}
+{%- if loop.from == node.id -%}
+{%- assign target = flow.nodes | where: 'id', loop.to | first -%}
+<p class="flow-outcome is-loop">{% include icon.html name="arrow-counter-clockwise" %}<span><strong>Back to {{ target.label }}.</strong> {{ loop.label }}</span></p>
+{%- endif -%}
+{%- endfor -%}
+</div>
+{%- if node.out -%}<p class="flow-edge"><span class="visually-hidden">Passes on: </span>{{ node.out }}</p>{%- endif -%}
+</li>
+{%- endfor -%}
+</ol>
+</div>
+<figcaption class="flow-caption">
+<span class="flow-legend" aria-hidden="true">
+<span class="flow-key" data-kind="stage"><span class="flow-marker"></span>Stage</span>
+<span class="flow-key" data-kind="gate"><span class="flow-marker"></span>Gate</span>
+{%- assign stores = flow.nodes | where: 'kind', 'store' -%}
+{%- if stores.size > 0 -%}<span class="flow-key" data-kind="store"><span class="flow-marker"></span>Store</span>{%- endif -%}
+{%- if flow.loops -%}<span class="flow-key" data-kind="loop"><span class="flow-marker"></span>Loop</span>{%- endif -%}
+</span>
+<span class="flow-hint" data-flow-hint hidden>Select a step, use the arrow keys, or press Play.</span>
+</figcaption>
+</figure>
