@@ -12,6 +12,7 @@ Personal technical blog (Jekyll, GitHub Pages). The theme is our own, in-repo; t
 
 - Post URLs (`/posts/:title/`), `/categories/<slug>/` and `/tags/<slug>/` are live links; category names include emoji, and their slugs (some odd, like `/categories/%EF%B8%8F-terraform/`) must not change.
 - Posts use Chirpy-era Markdown conventions that the theme still supports: `{: .light }`/`{: .dark }` paired screenshots, `{: .prompt-tip|info|warning|danger }` callouts, and image paths written as `../assets/...` or `assets/...` (rewritten in `_layouts/post.html`).
+- The explainer-engine (true-crime video pipeline) must never name or link its YouTube channel or on-screen persona anywhere on the site, including image text; describe it generically.
 - Colours are CSS custom properties in `_sass/_tokens.scss`; the home page WebGL scene (`_js/topology.js`) reads its colours from the `--graph-*` tokens, so change them there, not in JS.
 - Design rules come from the TasteSkill skill (github.com/Leonxlnx/taste-skill); install with `npx skills add https://github.com/Leonxlnx/taste-skill`. The skills are not committed.
 
