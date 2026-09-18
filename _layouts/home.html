@@ -1,0 +1,172 @@
+---
+layout: default
+---
+
+{%- comment -%} Top-level categories ranked by post count; shared by the hero map and the topic index. {%- endcomment -%}
+{%- assign _ranked = '' | split: '' -%}
+{%- for post in site.posts -%}
+  {%- assign _top = post.categories | first -%}
+  {%- if _top -%}
+    {%- assign _count = site.categories[_top] | size | prepend: '000' | slice: -3, 3 -%}
+    {%- capture _entry %}{{ _count }}::{{ _top }}{% endcapture -%}
+    {%- unless _ranked contains _entry -%}
+      {%- assign _ranked = _ranked | push: _entry -%}
+    {%- endunless -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- assign _ranked = _ranked | sort | reverse -%}
+{%- assign _latest = site.posts | first -%}
+
+{% if paginator.page == 1 %}
+  <section class="hero" aria-labelledby="hero-title" data-hero>
+    <div class="hero-stage" data-topology aria-hidden="true">
+      <div class="hero-labels" data-topology-labels></div>
+      <div class="hero-tooltip" data-topology-tooltip hidden></div>
+    </div>
+
+    <div class="hero-inner container">
+      <p class="hero-kicker">{{ site.social.name }}, {{ site.author_role }}</p>
+      <h1 class="hero-title" id="hero-title" data-split>Cloud infrastructure, built step by step.</h1>
+      <p class="hero-lede">
+        Hands-on guides to AWS, Kubernetes, Terraform and CI/CD, from over 13 years in the industry.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="{{ _latest.url | relative_url }}">
+          Read the latest guide
+          {% include icon.html name="arrow-right" %}
+        </a>
+        <a class="text-link" href="#posts">Browse all posts</a>
+      </div>
+    </div>
+
+    <p class="hero-legend" aria-hidden="true">
+      <span class="legend-dot"></span> Each point is a post, clustered by topic
+    </p>
+
+    <script type="application/json" id="topology-data">
+      {
+        "topics": [
+          {%- for _entry in _ranked -%}
+            {%- assign _pair = _entry | split: '::' -%}
+            {%- assign _name = _pair | last -%}
+            {%- capture _url %}/categories/{{ _name | slugify | url_encode }}/{% endcapture -%}
+            {%- capture _label %}{% include category-label.html name=_name %}{% endcapture -%}
+            {"name": {{ _name | strip | jsonify }}, "label": {{ _label | jsonify }}, "url": {{ _url | relative_url | jsonify }}, "count": {{ _pair | first | plus: 0 }}}
+            {%- unless forloop.last %},{% endunless -%}
+          {%- endfor -%}
+        ],
+        "posts": [
+          {%- for post in site.posts -%}
+            {"title": {{ post.title | jsonify }}, "url": {{ post.url | relative_url | jsonify }}, "date": {{ post.date | date: '%b %Y' | jsonify }}, "topic": {{ post.categories | first | strip | jsonify }}, "tags": {{ post.tags | jsonify }}}
+            {%- unless forloop.last %},{% endunless -%}
+          {%- endfor -%}
+        ]
+      }
+    </script>
+  </section>
+{% endif %}
+
+<section class="post-index container" id="posts" aria-labelledby="posts-heading">
+  <header class="section-head">
+    <h2 id="posts-heading" class="section-title">
+      {% if paginator.page == 1 %}Latest guides{% else %}Posts, page {{ paginator.page }}{% endif %}
+    </h2>
+    <p class="section-meta">{{ site.posts | size }} posts</p>
+  </header>
+
+  <ol class="post-list">
+    {% for post in paginator.posts %}
+      {% assign _featured = false %}
+      {% if paginator.page == 1 and forloop.first %}
+        {% assign _featured = true %}
+      {% endif %}
+      <li class="post-row{% if _featured %} is-featured{% endif %}" data-reveal>
+        <a href="{{ post.url | relative_url }}" class="post-row-link">
+          <div class="post-row-meta">
+            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
+            {% if post.categories.size > 0 %}
+              <span class="post-row-topic">{% include category-label.html name=post.categories.first %}</span>
+            {% endif %}
+          </div>
+          <h3 class="post-row-title" style="view-transition-name: post-{{ post.url | slugify }}">{{ post.title }}</h3>
+          <p class="post-row-excerpt">
+            {%- if _featured -%}
+              {% include post-excerpt.html post=post length=260 %}
+            {%- else -%}
+              {% include post-excerpt.html post=post %}
+            {%- endif -%}
+          </p>
+          <span class="post-row-arrow" aria-hidden="true">{% include icon.html name="arrow-up-right" %}</span>
+        </a>
+      </li>
+    {% endfor %}
+  </ol>
+
+  {% if paginator.total_pages > 1 %}
+    <nav class="pager" aria-label="Pages">
+      {% if paginator.previous_page %}
+        <a class="pager-link" href="{{ paginator.previous_page_path | relative_url }}" rel="prev">
+          {% include icon.html name="arrow-left" %} Newer
+        </a>
+      {% else %}
+        <span class="pager-spacer" aria-hidden="true"></span>
+      {% endif %}
+      <span class="pager-status">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
+      {% if paginator.next_page %}
+        <a class="pager-link" href="{{ paginator.next_page_path | relative_url }}" rel="next">
+          Older {% include icon.html name="arrow-right" %}
+        </a>
+      {% else %}
+        <span class="pager-spacer" aria-hidden="true"></span>
+      {% endif %}
+    </nav>
+  {% endif %}
+</section>
+
+{% if paginator.page == 1 %}
+  <section class="topic-index container" aria-labelledby="topics-heading">
+    <header class="section-head">
+      <h2 id="topics-heading" class="section-title">Topics</h2>
+      <a class="section-meta text-link" href="{{ '/categories/' | relative_url }}">All categories</a>
+    </header>
+
+    <ol class="topic-rows">
+      {% for _entry in _ranked %}
+        {% assign _pair = _entry | split: '::' %}
+        {% assign _name = _pair | last %}
+        {% capture _url %}/categories/{{ _name | slugify | url_encode }}/{% endcapture %}
+        <li class="topic-row" data-reveal>
+          <a href="{{ _url | relative_url }}" class="topic-row-link">
+            <span class="topic-row-count" data-count="{{ _pair | first | plus: 0 }}">{{ _pair | first | plus: 0 | prepend: '0' | slice: -2, 2 }}</span>
+            <span class="topic-row-name">{% include category-label.html name=_name %}</span>
+            <span class="topic-row-posts">
+              {% for post in site.categories[_name] limit: 3 %}
+                <span>{{ post.title }}</span>
+              {% endfor %}
+            </span>
+          </a>
+        </li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  {% if site.data.projects.size > 0 %}
+    <section class="projects-band container" aria-labelledby="projects-band-heading">
+      <header class="section-head">
+        <h2 id="projects-band-heading" class="section-title">Side projects</h2>
+        <a class="section-meta text-link" href="{{ '/projects/' | relative_url }}">View projects</a>
+      </header>
+      <ul class="projects-band-list">
+        {% for project in site.data.projects %}
+          <li data-reveal>
+            <a href="{{ '/projects/' | relative_url }}#{{ project.name | slugify }}">
+              <span class="projects-band-name">{{ project.name }}</span>
+              <span class="projects-band-summary">{{ project.tagline | default: project.summary }}</span>
+              <span class="projects-band-kind">{{ project.kind }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+{% endif %}

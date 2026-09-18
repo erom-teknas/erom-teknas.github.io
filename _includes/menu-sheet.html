@@ -1,0 +1,16 @@
+<dialog class="menu-sheet" id="menu-sheet" aria-label="Menu">
+  <div class="menu-sheet-head">
+    <span class="brand-name">{{ site.title }}</span>
+    <button type="button" class="icon-btn" data-close-dialog aria-label="Close menu">
+      {% include icon.html name="x" %}
+    </button>
+  </div>
+  <nav aria-label="Menu">
+    <ul class="menu-sheet-nav">
+      {% include nav-items.html %}
+    </ul>
+  </nav>
+  <div class="menu-sheet-foot">
+    {% include social-links.html %}
+  </div>
+</dialog>

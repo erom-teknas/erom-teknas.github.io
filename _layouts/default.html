@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'en' }}">
+  {% include head.html %}
+
+  <body data-layout="{{ page.layout }}">
+    {% include icons.svg %}
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    {% include header.html %}
+
+    <main id="main" tabindex="-1">
+      {{ content }}
+    </main>
+
+    {% include footer.html %}
+
+    <button type="button" class="back-to-top" data-back-to-top aria-label="Back to top" hidden>
+      {% include icon.html name="arrow-up" %}
+    </button>
+
+    {% include palette.html %}
+    {% include menu-sheet.html %}
+  </body>
+</html>

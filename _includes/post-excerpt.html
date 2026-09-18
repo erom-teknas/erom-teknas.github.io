@@ -1,0 +1,22 @@
+{%- comment -%}
+  Plain-text summary of a post for listings.
+
+  Uses `description` from the front matter when present. Otherwise it takes the
+  rendered body, drops the h2/h3 headings (posts open with a heading that
+  repeats the title), and truncates the remaining prose.
+
+  Params: post, length (optional, default 180)
+{%- endcomment -%}
+{%- assign _length = include.length | default: 180 -%}
+{%- if include.post.description -%}
+  {{- include.post.description | strip_html | truncate: _length | escape -}}
+{%- else -%}
+  {%- assign _html = include.post.content | replace: '</h3>', '</h2>' | replace: '<h3', '<h2' -%}
+  {%- assign _parts = _html | split: '</h2>' -%}
+  {%- capture _prose -%}
+    {%- for _part in _parts -%}
+      {{ _part | split: '<h2' | first }}{{ ' ' }}
+    {%- endfor -%}
+  {%- endcapture -%}
+  {{- _prose | strip_html | normalize_whitespace | strip | truncate: _length | escape -}}
+{%- endif -%}

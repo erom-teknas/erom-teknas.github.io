@@ -1,0 +1,34 @@
+<header class="site-header" data-header>
+  <div class="site-header-inner">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">{{ site.title }}</span>
+    </a>
+
+    <nav class="primary-nav" aria-label="Primary">
+      <ul>
+        {% include nav-items.html %}
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <button type="button" class="search-trigger" data-open-palette aria-haspopup="dialog">
+        {% include icon.html name="magnifying-glass" %}
+        <span class="search-trigger-label">Search</span>
+        <kbd class="search-trigger-key" aria-hidden="true"><span data-mod-key>Ctrl</span> K</kbd>
+      </button>
+
+      <button type="button" class="icon-btn" data-theme-toggle aria-label="Switch between light and dark theme">
+        {% include icon.html name="circle-half" %}
+      </button>
+
+      <button type="button" class="icon-btn menu-trigger" data-open-menu aria-label="Open menu" aria-haspopup="dialog">
+        {% include icon.html name="list" %}
+      </button>
+    </div>
+  </div>
+
+  {% if page.layout == 'post' %}
+    <div class="reading-progress" aria-hidden="true"></div>
+  {% endif %}
+</header>

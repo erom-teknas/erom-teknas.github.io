@@ -1,0 +1,155 @@
+/*
+  Colour tokens for both themes.
+
+  The theme follows the system unless the visitor picks one with the header
+  switch, which sets `data-theme` on <html> (see `_includes/theme-init.html`).
+  Palette: cool neutral greys with a single signal-orange accent.
+*/
+
+@mixin theme-light {
+  color-scheme: light;
+
+  --bg: #f6f7f7;
+  --surface: #fcfcfc;
+  --surface-sunken: #eef1f1;
+  --line: #e2e6e6;
+  --line-strong: #cbd2d3;
+  --ink: #14191c;
+  --ink-heading: #0b0f11;
+  --ink-muted: #555f64;
+  --ink-faint: #616c71;
+  --accent: #b3431b;
+  --accent-strong: #8f3314;
+  --accent-wash: rgba(179, 67, 27, 0.08);
+  --accent-line: rgba(179, 67, 27, 0.35);
+  --focus-ring: rgba(179, 67, 27, 0.5);
+  --header-bg: rgba(246, 247, 247, 0.8);
+  --overlay: rgba(20, 25, 28, 0.32);
+  --shadow-soft: 0 1px 2px rgba(20, 30, 35, 0.04), 0 12px 32px -16px rgba(20, 30, 35, 0.18);
+  --shadow-float: 0 24px 64px -24px rgba(20, 30, 35, 0.35), 0 0 0 1px rgba(20, 30, 35, 0.06);
+  --img-frame: #e2e6e6;
+  --sticker-tile: transparent;
+
+  /* The home page topology (read by `_js/topology.js`) */
+  --graph-node: #14191c;
+  --graph-edge: rgba(20, 25, 28, 0.16);
+  --graph-packet: #b3431b;
+  --graph-glow: 0; /* 0: normal blending, 1: additive glow */
+
+  /* Callouts: `{: .prompt-tip }` and friends */
+  --callout-tip: #2f6b4f;
+  --callout-tip-bg: #edf4f0;
+  --callout-info: #2b5f86;
+  --callout-info-bg: #ecf2f7;
+  --callout-warning: #8a5a00;
+  --callout-warning-bg: #f8f2e3;
+  --callout-danger: #a3322a;
+  --callout-danger-bg: #f8ecea;
+
+  /* Code */
+  --code-bg: #eef1f1;
+  --code-ink: #1d2428;
+  --code-keyword: #a63d17;
+  --code-string: #2d6a4a;
+  --code-number: #5b4a9e;
+  --code-name: #1f5d86;
+  --code-builtin: #855700;
+  --code-op: #4c565b;
+  --code-comment: #646e73;
+  --code-removed: #a3322a;
+  --code-removed-bg: #f8ecea;
+  --code-added-bg: #edf4f0;
+}
+
+@mixin theme-dark {
+  color-scheme: dark;
+
+  --bg: #0b0d0e;
+  --surface: #121618;
+  --surface-sunken: #14191b;
+  --line: #20272a;
+  --line-strong: #313c41;
+  --ink: #d5dbde;
+  --ink-heading: #f1f4f5;
+  --ink-muted: #939da2;
+  --ink-faint: #7b868b;
+  --accent: #ec8a5e;
+  --accent-strong: #f0a17c;
+  --accent-wash: rgba(236, 138, 94, 0.1);
+  --accent-line: rgba(236, 138, 94, 0.4);
+  --focus-ring: rgba(236, 138, 94, 0.55);
+  --header-bg: rgba(11, 13, 14, 0.72);
+  --overlay: rgba(0, 0, 0, 0.55);
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -16px rgba(0, 0, 0, 0.7);
+  --shadow-float: 0 24px 64px -24px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --img-frame: #20272a;
+  --sticker-tile: #e9eded;
+
+  --graph-node: #e6ebed;
+  --graph-edge: rgba(200, 215, 220, 0.14);
+  --graph-packet: #ff9a66;
+  --graph-glow: 1;
+
+  --callout-tip: #7cc4a0;
+  --callout-tip-bg: #111d17;
+  --callout-info: #86b6dc;
+  --callout-info-bg: #101a22;
+  --callout-warning: #e0b35c;
+  --callout-warning-bg: #1f1a0f;
+  --callout-danger: #ec8f86;
+  --callout-danger-bg: #221413;
+
+  --code-bg: #121618;
+  --code-ink: #d5dbde;
+  --code-keyword: #ec8a5e;
+  --code-string: #93c9a4;
+  --code-number: #b7a6e8;
+  --code-name: #8cc0e6;
+  --code-builtin: #e0b35c;
+  --code-op: #a4aeb2;
+  --code-comment: #7d888d;
+  --code-removed: #ec8f86;
+  --code-removed-bg: #241514;
+  --code-added-bg: #13201a;
+}
+
+:root {
+  @include theme-light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    @include theme-dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  @include theme-dark;
+}
+
+/* Posts ship paired screenshots: `{: .light }` and `{: .dark }` */
+:root .dark {
+  display: none !important;
+}
+
+:root[data-theme='dark'] {
+  .light {
+    display: none !important;
+  }
+
+  .dark {
+    display: revert !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    .light {
+      display: none !important;
+    }
+
+    .dark {
+      display: revert !important;
+    }
+  }
+}

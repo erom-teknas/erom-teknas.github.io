@@ -1,0 +1,19 @@
+<nav class="post-nav" aria-label="More posts">
+  {% if page.previous.url %}
+    <a href="{{ page.previous.url | relative_url }}" class="post-nav-link is-prev">
+      <span class="post-nav-label">{% include icon.html name="arrow-left" %} Older</span>
+      <span class="post-nav-title">{{ page.previous.title }}</span>
+    </a>
+  {% else %}
+    <span class="post-nav-link is-empty" aria-hidden="true"></span>
+  {% endif %}
+
+  {% if page.next.url %}
+    <a href="{{ page.next.url | relative_url }}" class="post-nav-link is-next">
+      <span class="post-nav-label">Newer {% include icon.html name="arrow-right" %}</span>
+      <span class="post-nav-title">{{ page.next.title }}</span>
+    </a>
+  {% else %}
+    <span class="post-nav-link is-empty" aria-hidden="true"></span>
+  {% endif %}
+</nav>

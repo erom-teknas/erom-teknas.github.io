@@ -1,7 +1,7 @@
 ---
 # the default layout is 'page'
-icon: fas fa-info-circle
-order: 4
+order: 5
+portrait: /assets/images/me/me-640.jpg
 ---
 Hello there! 👋 I'm Sanket Vilas More, a seasoned DevOps engineer with over 13 years of experience in the industry. I'm passionate about leveraging cutting-edge technologies to streamline development processes and drive continuous improvement.
 
@@ -12,6 +12,6 @@ Hello there! 👋 I'm Sanket Vilas More, a seasoned DevOps engineer with over 13
 <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="7d12b458-e7f6-464a-ba1e-736f7a88b2b4" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="https://cdn.credly.com/assets/utilities/embed.js"></script>
 
 
-> ##### Let's Connect
+> ### Let's Connect
 I'm always excited to collaborate on exciting projects and explore new opportunities. Feel free to reach out via [erom.teknas@gmail.com](mailto:erom.teknas@gmail.com) or connect with me on [LinkedIn](https://www.linkedin.com/in/eromteknas).
 {: .prompt-tip }

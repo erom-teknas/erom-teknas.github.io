@@ -1,0 +1,270 @@
+@use 'variables' as *;
+
+/* Long-form prose: posts, the About page and other Markdown pages */
+
+.prose {
+  min-width: 0;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--ink);
+
+  > :first-child,
+  > .toc-inline + * {
+    margin-top: 0;
+  }
+
+  p,
+  ul,
+  ol,
+  dl,
+  table,
+  figure {
+    margin: 0 0 1.25rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    position: relative;
+    scroll-margin-top: calc(#{$header-h} + 1.5rem);
+  }
+
+  /* A few posts use a level-one heading inside the body; the page title is the only true h1 in the design */
+  h1 {
+    margin: 3rem 0 1rem;
+    font-size: 1.875rem;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  h2 {
+    margin: 3rem 0 1rem;
+    font-size: 1.625rem;
+    letter-spacing: -0.02em;
+  }
+
+  h3 {
+    margin: 2.25rem 0 0.75rem;
+    font-size: 1.25rem;
+  }
+
+  h4 {
+    margin: 1.75rem 0 0.625rem;
+    font-size: 1.0625rem;
+  }
+
+  h5 {
+    margin: 1.5rem 0 0.5rem;
+    font-size: 1rem;
+  }
+
+  .heading-anchor {
+    position: absolute;
+    left: -1.5rem;
+    top: 50%;
+    display: inline-flex;
+    padding: 0.2rem;
+    color: var(--ink-faint);
+    border: 0;
+    opacity: 0;
+    transform: translateY(-50%);
+    transition: opacity 0.2s ease, color 0.2s ease;
+
+    .icon {
+      width: 0.95rem;
+      height: 0.95rem;
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: var(--accent);
+      opacity: 1;
+    }
+  }
+
+  :is(h1, h2, h3, h4):hover .heading-anchor {
+    opacity: 1;
+  }
+
+  a:not(.heading-anchor):not(.tag-chip) {
+    color: var(--accent);
+    border-bottom: 1px solid var(--accent-line);
+
+    &:hover {
+      color: var(--accent-strong);
+      border-bottom-color: currentColor;
+    }
+  }
+
+  strong {
+    font-weight: 600;
+    color: var(--ink-heading);
+  }
+
+  ul,
+  ol {
+    padding-inline-start: 1.5rem;
+
+    li {
+      margin: 0.375rem 0;
+      padding-left: 0.25rem;
+    }
+
+    ul,
+    ol {
+      margin: 0.5rem 0;
+      padding-inline-start: 1.25rem;
+    }
+  }
+
+  ::marker {
+    color: var(--ink-faint);
+  }
+
+  blockquote {
+    margin: 1.75rem 0;
+    padding: 0.125rem 0 0.125rem 1.25rem;
+    border-left: 2px solid var(--line-strong);
+    color: var(--ink-muted);
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  /* Callouts: `{: .prompt-tip }` and friends, labelled rather than iconed */
+  blockquote[class^='prompt-'] {
+    position: relative;
+    padding: 2.25rem 1.25rem 1rem;
+    border-left: 3px solid var(--callout-rule);
+    border-radius: 0 $radius $radius 0;
+    background: var(--callout-bg);
+    color: var(--ink);
+    font-size: 1rem;
+    line-height: 1.65;
+
+    &::before {
+      @include label;
+
+      content: var(--callout-label);
+      position: absolute;
+      top: 0.875rem;
+      left: 1.25rem;
+      color: var(--callout-rule);
+    }
+
+    :is(h3, h4, h5) {
+      margin: 0 0 0.375rem;
+      font-size: 1rem;
+    }
+  }
+
+  .prompt-tip {
+    --callout-rule: var(--callout-tip);
+    --callout-bg: var(--callout-tip-bg);
+    --callout-label: 'Tip';
+  }
+
+  .prompt-info {
+    --callout-rule: var(--callout-info);
+    --callout-bg: var(--callout-info-bg);
+    --callout-label: 'Note';
+  }
+
+  .prompt-warning {
+    --callout-rule: var(--callout-warning);
+    --callout-bg: var(--callout-warning-bg);
+    --callout-label: 'Warning';
+  }
+
+  .prompt-danger {
+    --callout-rule: var(--callout-danger);
+    --callout-bg: var(--callout-danger-bg);
+    --callout-label: 'Caution';
+  }
+
+  /* Screenshots and diagrams */
+  img {
+    margin: 1.25rem 0;
+    border-radius: 8px;
+  }
+
+  img.shadow {
+    border: 1px solid var(--img-frame);
+    background: var(--surface);
+  }
+
+  .zoomable {
+    cursor: zoom-in;
+  }
+
+  table {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: $radius;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.925rem;
+
+    th,
+    td {
+      padding: 0.625rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+
+    thead th {
+      background: var(--surface-sunken);
+      font-weight: 600;
+      color: var(--ink-heading);
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+  }
+
+  hr {
+    margin: 2.5rem 0;
+  }
+
+  iframe {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: $bp-md - 1) {
+  .prose {
+    font-size: 1rem;
+
+    .heading-anchor {
+      display: none;
+    }
+  }
+}
+
+/* The About page embeds Credly badges; reserve their size so the page does not jump when they load */
+.prose [data-share-badge-id] {
+  display: inline-block;
+  width: 150px;
+  height: 270px;
+  margin: 0 0.75rem 0.75rem 0;
+  vertical-align: top;
+}
+
+.prose [data-share-badge-id] iframe {
+  margin: 0 !important;
+}
+
+.prose iframe[src*='credly'] {
+  display: inline-block;
+  margin: 0 0.75rem 0.75rem 0;
+  border: 1px solid var(--line) !important;
+  border-radius: $radius;
+  background: #fff;
+}

@@ -1,0 +1,127 @@
+@use 'variables' as *;
+
+/* Site footer */
+
+.site-footer {
+  margin-top: 7rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.site-footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem 3rem;
+  max-width: calc(#{$container} + #{$gutter} * 2);
+  margin: 0 auto;
+  padding: 2.5rem $gutter 3rem;
+
+  a {
+    color: var(--ink);
+
+    &:hover {
+      color: var(--accent);
+    }
+  }
+}
+
+.footer-sign {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* The GitHub and email "stickers" are the author's own memoji */
+.footer-stickers {
+  display: flex;
+  gap: 0.5rem;
+
+  a {
+    display: block;
+    padding: 0.25rem;
+    border-radius: 14px;
+    background: var(--sticker-tile);
+    transition: transform 0.3s $ease-spring;
+
+    &:hover {
+      transform: translateY(-3px) rotate(-4deg);
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+
+  img {
+    width: 4.25rem;
+    height: 4.25rem;
+  }
+}
+
+.footer-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  line-height: 1.5;
+
+  /* Links inside sentences need more than colour to stand out */
+  p a {
+    border-bottom: 1px solid var(--line-strong);
+
+    &:hover {
+      border-color: var(--accent-line);
+    }
+  }
+}
+
+.footer-name {
+  font-weight: 600;
+  color: var(--ink-heading);
+}
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0;
+    color: var(--ink);
+
+    .icon {
+      color: var(--ink-faint);
+      transition: color 0.2s ease;
+    }
+
+    &:hover,
+    &:hover .icon {
+      color: var(--accent);
+    }
+  }
+}
+
+@media (max-width: $bp-sm - 1) {
+  .site-footer {
+    margin-top: 5rem;
+  }
+
+  .site-footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem $gutter-sm 2.5rem;
+  }
+
+  .footer-sign {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

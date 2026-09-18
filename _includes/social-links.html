@@ -1,0 +1,35 @@
+<!-- Profile links, driven by `site.social` in `_config.yml` -->
+<ul class="social-links">
+  {% for link in site.social.links %}
+    {% if link contains 'github.com' %}
+      {% assign _icon = 'github-logo' %}
+      {% assign _label = 'GitHub' %}
+    {% elsif link contains 'linkedin.com' %}
+      {% assign _icon = 'linkedin-logo' %}
+      {% assign _label = 'LinkedIn' %}
+    {% else %}
+      {% assign _icon = 'link-simple' %}
+      {% assign _label = link | remove: 'https://' | remove: 'www.' | split: '/' | first %}
+    {% endif %}
+    <li>
+      <a href="{{ link | strip }}" target="_blank" rel="me noopener noreferrer">
+        {% include icon.html name=_icon %}
+        <span>{{ _label }}</span>
+      </a>
+    </li>
+  {% endfor %}
+  {% if site.social.email %}
+    <li>
+      <a href="mailto:{{ site.social.email }}">
+        {% include icon.html name="envelope-simple" %}
+        <span>Email</span>
+      </a>
+    </li>
+  {% endif %}
+  <li>
+    <a href="{{ '/feed.xml' | relative_url }}">
+      {% include icon.html name="rss-simple" %}
+      <span>RSS</span>
+    </a>
+  </li>
+</ul>
