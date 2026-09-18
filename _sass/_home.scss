@@ -403,9 +403,10 @@
     color: var(--accent);
   }
 
-  &.is-disabled {
-    opacity: 0.4;
-  }
+}
+
+.pager-spacer {
+  width: 6rem;
 }
 
 .pager-status {

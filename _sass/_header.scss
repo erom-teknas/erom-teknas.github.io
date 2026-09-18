@@ -208,7 +208,10 @@
   .search-trigger {
     width: auto;
 
-    .search-trigger-label,
+    .search-trigger-label {
+      @include visually-hidden;
+    }
+
     .search-trigger-key {
       display: none;
     }

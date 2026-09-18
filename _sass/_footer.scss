@@ -66,6 +66,15 @@
   flex-direction: column;
   gap: 0.125rem;
   line-height: 1.5;
+
+  /* Links inside sentences need more than colour to stand out */
+  p a {
+    border-bottom: 1px solid var(--line-strong);
+
+    &:hover {
+      border-color: var(--accent-line);
+    }
+  }
 }
 
 .footer-name {

@@ -109,7 +109,7 @@ layout: default
           {% include icon.html name="arrow-left" %} Newer
         </a>
       {% else %}
-        <span class="pager-link is-disabled" aria-hidden="true">{% include icon.html name="arrow-left" %} Newer</span>
+        <span class="pager-spacer" aria-hidden="true"></span>
       {% endif %}
       <span class="pager-status">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
       {% if paginator.next_page %}
@@ -117,7 +117,7 @@ layout: default
           Older {% include icon.html name="arrow-right" %}
         </a>
       {% else %}
-        <span class="pager-link is-disabled" aria-hidden="true">Older {% include icon.html name="arrow-right" %}</span>
+        <span class="pager-spacer" aria-hidden="true"></span>
       {% endif %}
     </nav>
   {% endif %}
