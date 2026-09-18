@@ -27,23 +27,21 @@
     src: /assets/images/projects/pact.jpg
     alt: Pact's start screen, showing a sample group leaderboard with points and streaks
 
-- name: Malik Ashford
-  kind: YouTube channel
-  tagline: True-crime Shorts about cases a court has closed.
+- name: explainer-engine
+  kind: Explainer pipeline
+  tagline: Automated true-crime explainer Shorts about closed cases.
   summary: >-
-    A true-crime Shorts channel. Each 40 to 60 second video covers a case a court
-    has closed, such as a conviction or a guilty plea, never an open investigation.
+    An automated pipeline that researches, scripts, narrates and renders 40 to 60
+    second true-crime explainers, only about cases a court has closed, such as a
+    conviction or a guilty plea, never an open investigation.
   details:
-    - Made by explainer-engine, a JSON-driven Remotion pipeline that renders vertical 1080x1920 video.
+    - JSON-driven Remotion compositions render vertical 1080x1920 video.
     - Scripts are written from a pinned Wikipedia article and checked claim by claim before rendering.
     - Narration is generated with ElevenLabs and timed word by word to the picture.
   stack: [Remotion, TypeScript, ElevenLabs, YouTube Data API]
-  link:
-    url: https://www.youtube.com/channel/UCQaude9rBXHpL5553LNOqBw
-    label: Watch on YouTube
   image:
-    src: /assets/images/projects/malik-ashford.jpg
-    alt: Cover of the Malik Ashford video on the 1911 theft of the Mona Lisa
+    src: /assets/images/projects/explainer-engine.jpg
+    alt: Cover of an explainer on the 1911 theft of the Mona Lisa
 
 - name: shorts-engine
   kind: Video pipeline
