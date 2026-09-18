@@ -1,0 +1,597 @@
+@use 'variables' as *;
+
+/*
+  Interactive flow diagrams in posts (`_includes/flow.html`, `_js/flow.js`).
+  Selectors are doubled up (`.flow .flow-*`) so they win over the generic
+  `.prose` element styles they sit inside.
+*/
+
+.flow {
+  --flow-dot: color-mix(in srgb, var(--ink) 7%, transparent);
+  --flow-marker-x: 1.875rem; /* centre of the step markers: the wire */
+  --flow-text: 3.125rem; /* where step text starts */
+
+  margin: 2.25rem 0 2.5rem;
+  border: 1px solid var(--line);
+  border-radius: $radius;
+  background:
+    radial-gradient(circle at center, var(--flow-dot) 1px, transparent 1.5px) 0 0 / 18px 18px,
+    var(--surface);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  overflow: clip;
+
+  [hidden] {
+    display: none !important;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .icon {
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+  }
+}
+
+/* --- Head: title and controls --- */
+
+.flow .flow-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding: 0.875rem 1rem 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+}
+
+.flow .flow-title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--ink-heading);
+}
+
+.flow .flow-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.flow .flow-modes {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid var(--line-strong);
+  border-radius: $radius-sm;
+  background: var(--bg);
+}
+
+.flow .flow-mode,
+.flow .flow-play,
+.flow .flow-next {
+  @include mono;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.flow .flow-mode {
+  padding: 0.35rem 0.7rem;
+  border: 0;
+  border-radius: $radius-xs;
+  background: transparent;
+  color: var(--ink-muted);
+
+  &:hover {
+    color: var(--ink-heading);
+  }
+
+  &[aria-pressed='true'] {
+    background: var(--accent);
+    color: var(--surface);
+  }
+}
+
+.flow .flow-play,
+.flow .flow-next {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--line-strong);
+  border-radius: $radius-sm;
+  background: var(--surface);
+  color: var(--ink);
+
+  &:hover {
+    border-color: var(--accent-line);
+    color: var(--accent);
+  }
+}
+
+.flow.is-playing .flow-play {
+  border-color: var(--accent-line);
+  background: var(--accent-wash);
+  color: var(--accent);
+}
+
+/* --- The rail: steps, the wire and edge labels --- */
+
+.flow .flow-list {
+  position: relative;
+  margin: 0;
+  padding: 1.125rem 0.75rem 1.25rem 0;
+  list-style: none;
+}
+
+.flow .flow-step {
+  margin: 0;
+  padding: 0;
+}
+
+.flow .flow-phase {
+  @include label;
+
+  padding: 0 0 0.375rem var(--flow-text);
+  font-size: 0.68rem;
+}
+
+.flow .flow-step:not(:first-child) .flow-phase {
+  margin-top: 0.875rem;
+}
+
+.flow .flow-node {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: var(--flow-text) minmax(0, 1fr);
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 0.625rem 0.5rem 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  color: var(--ink);
+  cursor: default;
+
+  /* Hover and focus wash the text, leaving the wire uncovered */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 0 calc(var(--flow-text) - 0.5rem);
+    z-index: -1;
+    border-radius: $radius-sm;
+    background: transparent;
+    transition: background-color 0.2s ease;
+  }
+
+  &:focus-visible {
+    outline: 0;
+
+    &::before {
+      outline: 2px solid var(--focus-ring);
+      outline-offset: -2px;
+    }
+  }
+
+  > :not(.flow-marker) {
+    grid-column: 2;
+  }
+}
+
+.flow.is-live .flow-node {
+  cursor: pointer;
+
+  &:hover::before {
+    background: var(--accent-wash);
+  }
+}
+
+.flow .flow-marker {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: center;
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--surface);
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s $ease-out;
+}
+
+.flow [data-kind='gate'] .flow-marker {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 2px;
+  transform: rotate(45deg);
+}
+
+.flow [data-kind='store'] .flow-marker {
+  border-radius: 3px;
+}
+
+.flow .flow-label {
+  font-weight: 560;
+  line-height: 1.35;
+  color: var(--ink-heading);
+}
+
+.flow .flow-index {
+  @include mono;
+
+  margin-right: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 450;
+  color: var(--ink-faint);
+
+  &:empty {
+    display: none;
+  }
+}
+
+.flow .flow-where {
+  @include mono;
+
+  margin-top: 0.125rem;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--ink-faint);
+}
+
+.flow .flow-note {
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--accent);
+}
+
+/* What each step hands to the next, written beside the wire */
+.flow .flow-edge {
+  @include mono;
+
+  position: relative;
+  padding: 0.125rem 0.75rem 0.25rem calc(var(--flow-text) + 0.25rem);
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--ink-faint);
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: var(--flow-marker-x);
+    top: 0.8em;
+    width: calc(var(--flow-text) - var(--flow-marker-x) - 0.25rem);
+    border-top: 1px dashed var(--line-strong);
+  }
+}
+
+.flow .flow-wire {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--line);
+  pointer-events: none;
+}
+
+.flow .flow-wire-lit {
+  background: var(--accent);
+  transition: height 0.5s $ease-out;
+}
+
+.flow .flow-loops {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.flow .flow-loop {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.25s ease;
+
+  &.is-hot {
+    stroke: var(--accent);
+  }
+}
+
+.flow .flow-loop-line {
+  stroke-dasharray: 3 4;
+}
+
+.flow .flow-loop.is-hot .flow-loop-line {
+  animation: flow-march 0.9s linear infinite;
+}
+
+.flow .flow-packet {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--graph-packet);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--graph-packet) 22%, transparent),
+    0 0 14px 2px color-mix(in srgb, var(--graph-packet) calc(var(--graph-glow) * 55%), transparent);
+  offset-anchor: 4px 4px;
+  offset-rotate: 0deg;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Step states */
+
+.flow .flow-step.is-past .flow-marker {
+  border-color: var(--accent);
+}
+
+.flow .flow-step.is-active {
+  .flow-marker {
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow:
+      0 0 0 4px var(--accent-wash),
+      0 0 12px color-mix(in srgb, var(--graph-packet) calc(var(--graph-glow) * 50%), transparent);
+  }
+
+  .flow-node::before {
+    background: var(--accent-wash);
+  }
+
+  .flow-index {
+    color: var(--accent);
+  }
+}
+
+.flow .flow-step.is-pinged .flow-marker {
+  animation: flow-ping 0.7s $ease-out;
+}
+
+.flow .flow-step[data-kind='gate'].is-pinged .flow-marker {
+  animation-name: flow-ping-gate;
+}
+
+@keyframes flow-ping {
+  40% {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 6px var(--accent-wash);
+    transform: scale(1.25);
+  }
+}
+
+@keyframes flow-ping-gate {
+  40% {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 6px var(--accent-wash);
+    transform: rotate(45deg) scale(1.25);
+  }
+}
+
+@keyframes flow-march {
+  to {
+    stroke-dashoffset: -7;
+  }
+}
+
+/* --- Detail panels --- */
+
+.flow .flow-panel {
+  padding: 0.25rem 0.75rem 1rem var(--flow-text);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.flow .flow-panel-head {
+  display: none;
+}
+
+.flow .flow-summary {
+  margin-bottom: 0.625rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink-heading);
+}
+
+.flow .flow-detail {
+  ul,
+  ol,
+  p {
+    margin: 0 0 0.625rem;
+  }
+
+  ul,
+  ol {
+    padding-inline-start: 1.125rem;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li {
+    margin: 0.3rem 0;
+    padding-left: 0.125rem;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  code {
+    font-size: 0.82em;
+  }
+}
+
+.flow .flow-outcome {
+  display: flex;
+  gap: 0.625rem;
+  margin-top: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: $radius-sm;
+  font-size: 0.86rem;
+  line-height: 1.5;
+
+  .icon {
+    margin-top: 0.2em;
+  }
+
+  &.is-fail {
+    background: var(--callout-danger-bg);
+
+    .icon {
+      color: var(--callout-danger);
+    }
+  }
+
+  &.is-loop {
+    background: var(--accent-wash);
+
+    .icon {
+      color: var(--accent);
+    }
+  }
+}
+
+.flow .flow-panel-foot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+/* On narrow screens the open panel is a card under its step, beside the wire */
+.flow.is-live .flow-list .flow-panel {
+  margin: 0.25rem 0.125rem 0.5rem var(--flow-text);
+  padding: 0.875rem 1rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: $radius-sm;
+  background: var(--bg);
+}
+
+/* --- Wide screens: the rail on the left, the chosen step's panel beside it --- */
+
+@media (min-width: $bp-md) {
+  .flow.is-live .flow-body {
+    display: grid;
+    grid-template-columns: minmax(16rem, 43%) minmax(0, 1fr);
+  }
+
+  .flow .flow-stage {
+    border-left: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 70%, transparent);
+  }
+
+  .flow .flow-stage .flow-panel {
+    position: sticky;
+    top: calc(#{$header-h} + 1rem);
+    padding: 1.25rem 1.5rem 1.5rem;
+  }
+
+  .flow .flow-stage .flow-panel-head {
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .flow .flow-panel-kicker {
+    @include mono;
+
+    font-size: 0.72rem;
+    color: var(--accent);
+  }
+
+  .flow .flow-panel-title {
+    margin-top: 0.125rem;
+    font-size: 1.2rem;
+    font-weight: 620;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    color: var(--ink-heading);
+  }
+}
+
+/* --- Caption: legend and hint --- */
+
+.flow .flow-caption {
+  @include mono;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--ink-faint);
+}
+
+.flow .flow-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem 1rem;
+}
+
+.flow .flow-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+
+  .flow-marker {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-width: 1.5px;
+  }
+
+  &[data-kind='gate'] .flow-marker {
+    width: 0.55rem;
+    height: 0.55rem;
+  }
+
+  &[data-kind='loop'] .flow-marker {
+    width: 0.9rem;
+    height: 0;
+    border: 0;
+    border-top: 1.5px dashed var(--accent);
+    border-radius: 0;
+    background: none;
+  }
+}
+
+@media (max-width: $bp-sm - 1) {
+  .flow {
+    margin-left: -0.25rem;
+    margin-right: -0.25rem;
+  }
+
+  .flow .flow-head {
+    padding-left: 1rem;
+  }
+
+  .flow .flow-caption {
+    padding: 0.75rem 1rem;
+  }
+}

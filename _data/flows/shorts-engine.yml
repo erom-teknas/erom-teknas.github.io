@@ -1,0 +1,108 @@
+# Interactive flow diagram for the shorts-engine post. Rendered by
+# `_includes/flow.html` and driven by `_js/flow.js`; the schema is documented there.
+
+title: How a long video becomes a published short
+
+loops:
+  - from: gates
+    to: render
+    label: Scored below 70, so the clip is repaired (start or end extended) or swapped for a reserve candidate, then judged again. At most 2 attempts per clip.
+  - from: shelf
+    to: ingest
+    label: Every 4 hours, fill-shelf processes newly discovered sources until about 10 clips are ready again.
+
+nodes:
+  - id: ingest
+    phase: Understand
+    label: Ingest
+    where: yt-dlp, local
+    summary: Downloads the source and prepares clean audio for every stage after it.
+    detail: |
+      - Downloads the long-form video with `yt-dlp`.
+      - Extracts 16 kHz mono audio, normalised to -16 LUFS (EBU R128).
+      - Detects scene cuts, which framing uses later.
+    out: normalised audio + scene cuts
+
+  - id: transcribe
+    label: Transcribe
+    where: faster-whisper, local
+    summary: Turns speech into words with timings exact enough to drive the captions.
+    detail: |
+      - `faster-whisper` with `large-v3-turbo` and word timestamps on.
+      - Each word is snapped to a 20 ms energy envelope, so a caption appears when the word is actually heard.
+      - Speakers come from pyannote when it's installed, and a heuristic acoustic diarizer otherwise.
+      - Cached by the audio's hash, so a re-run skips a 3 hour transcription.
+    out: word-timed transcript, speakers
+
+  - id: curate
+    label: Curate
+    where: Gemini, with fallbacks
+    note: 4-step fallback, rules alone never publish
+    summary: One LLM call reads the whole transcript and picks the moments worth clipping.
+    detail: |
+      - Sentences are numbered and tagged with local acoustic cues (`LOUD`, `SPIKE`, `REACT`, `FAST`), because a shout or a laugh is often the best clue.
+      - Returns up to five ranked moments, each with a title, hook line, hashtags and 0 to 100 scores for hook, payoff and loop strength.
+      - Duration limits (10 to 25 s, aiming for 15) are enforced in code after the model answers.
+
+      If Gemini is unavailable: sliding-window candidates scored by rules, then batches of 150 to Gemini, then a local Ollama `qwen3:8b`, then rules alone. The `min_acceptable_curator_backend` floor stops a rules-only pick from ever reaching the publish queue.
+    out: up to 5 ranked moments
+
+  - id: vision
+    phase: Make
+    label: Vision and framing
+    where: YuNet, face mesh, local
+    note: Runs after curation, 746 s down to 23 s
+    summary: Finds faces and the active speaker, then directs the camera inside each chosen window only.
+    detail: |
+      - Faces from YuNet, falling back to MediaPipe BlazeFace, then Haar cascades.
+      - The active speaker comes from mouth movement, matched against word timing and audio level.
+      - Each shot is `single_speaker`, `dual_split` or `wide_letterbox`, with the crop path smoothed by Kalman and Bezier filters.
+      - Wide shots and punch-ins alternate every 1.8 to 6 s. When unsure who is talking, it stays wide.
+    out: crop path + shot plan
+
+  - id: render
+    label: Render
+    where: FFmpeg filtergraphs
+    summary: Plain FFmpeg cuts, frames, captions and mixes each clip.
+    detail: |
+      - Captions are ASS subtitles burned in with the `ass=` filter.
+      - Gaps between words over 350 ms shrink to 120 ms with jump cuts.
+      - A 1 to 5 s flash-forward cold open teases the payoff, over a CC0 music bed with sound effects and bleeps.
+      - A visual flash can only exist at the onset of a validated sound effect; any orphan is stripped.
+      - Every output gets `-map_chapters -1 -dn -sn`, after a music file's chapter became a phantom 30 second track.
+      - Encodes with `h264_videotoolbox`, falling back to NVENC, then libx264.
+    out: captioned 9:16 MP4
+
+  - id: gates
+    kind: gate
+    label: Quality gates
+    where: read-back + Gemini judge
+    note: Below 70, repair and judge again
+    summary: Checks the finished file, not what the code meant to produce.
+    detail: |
+      - Read-back: exactly one video and one audio stream, with durations within 0.5 s of each other.
+      - The watchability judge watches a 360p, 24 fps proxy and answers four checkable questions: does it open without context, is there a reason to keep watching, does the payoff land, and where would a viewer drop off.
+      - It returns a `watchability_score` calibrated like a retention percentage. At most 10 judge calls per source, about $0.002 to $0.003 per clip.
+    out: judged clip
+
+  - id: shelf
+    phase: Ship
+    kind: store
+    label: Shelf
+    where: launchd, every 4 h
+    summary: A buffer of about 10 rendered, judged clips, so a publish slot never waits on a render.
+    detail: |
+      - `discover` runs nightly and checks tracked channels for uploads using the 1-unit `playlistItems` and `videos.list` calls, not the 100-unit `search.list`.
+      - `fill-shelf` runs every 4 hours to keep the shelf topped up.
+      - Every read-modify-write of the shelf happens under a blocking `flock`.
+    out: next clip due
+
+  - id: publish
+    label: Publish
+    where: YouTube Data API
+    summary: Five slots a day, one clip per slot, uploaded exactly once.
+    detail: |
+      - `publish-slot` fires five times a day and makes a resumable upload.
+      - It reads the privacy status back from the API instead of assuming it. English sources go public, everything else stays private.
+      - An atomic `fcntl.flock` lock, never unlinked, keeps two schedulers from uploading the same clip.
+      - Rows are matched on `(pool_video_id, clip_id)`, and the channel's real uploads are checked before any retry.

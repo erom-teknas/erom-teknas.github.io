@@ -1,0 +1,144 @@
+# Interactive flow diagram for the explainer-engine post. Rendered by
+# `_includes/flow.html` and driven by `_js/flow.js`; the schema is documented there.
+
+title: How a subject becomes a checked, narrated video
+
+loops:
+  - from: factcheck
+    to: write
+    label: Findings go back to the writer, who rewrites. Sentences that already passed stay settled. Up to three rounds.
+
+nodes:
+  - id: subject
+    phase: Research
+    label: Pick a subject
+    where: Wikipedia + Wikidata
+    summary: Crawls crime categories, then keeps only people and cases Wikidata records as convicted.
+    detail: |
+      - Crawls English Wikipedia crime categories two levels deep, drops articles under 40,000 bytes and deduplicates by Wikidata ID.
+      - A person must be human with `P1399` "convicted of" set, and have died at least two years ago. A case needs a date and a named perpetrator who has `P1399`.
+      - Political violence, mass-casualty events, sexual crimes and crimes against children are excluded outright.
+      - In the first measured build, 6,260 articles went in and 83 subjects came out. This is a convenience filter, not the safety guarantee.
+    out: candidate subject
+
+  - id: source
+    label: Pin the source
+    where: MediaWiki Action API
+    summary: Stores the article's exact revision id. Everything after this works against that revision.
+    detail: |
+      - Saves the revision id and an `oldid=` permalink in `source.json`.
+      - Block quotations are marked as unusable evidence.
+      - Paragraphs are numbered (`[P1]`, `[P2]`, ...) so every later claim can cite one.
+    fail: Disambiguation pages, weak title matches and thin articles (under 700 words or 6 paragraphs) are refused.
+    out: numbered article at one revision
+
+  - id: verdict
+    kind: gate
+    label: Verdict gate
+    where: code, then one LLM call
+    note: Refuses unless a court closed the case
+    summary: Before a word is written, decides whether the case is closed. It fails closed.
+    detail: |
+      - Layer one is plain code: patterns for conviction, unresolved and contested language. No conviction phrase, or any unresolved phrase, is refused with no model call.
+      - Layer two is one call at temperature 0 with a strict JSON schema. Code then checks every quote is verbatim, in the cited paragraph and not from a block quotation.
+      - Any doubt the model reports is a refusal. The Zodiac Killer fails in layer one, the Lindbergh kidnapping in layer two; the 1911 Mona Lisa theft is confirmed.
+    fail: Refused permanently, with the reasons written to `verdict.md`.
+    out: confirmed case
+
+  - id: write
+    phase: Script
+    label: Write
+    where: Gemini, schema-constrained JSON
+    summary: Writes the narration from the numbered article, its only source, and cites every fact.
+    detail: |
+      - Returns a `facts[]` list alongside the narration: each fact has a claim, its beat, a paragraph id and a verbatim quote as evidence.
+      - Also writes 2 or 3 alternative openings for the hook judge to compare against.
+    out: draft + cited facts
+
+  - id: hook
+    kind: gate
+    label: Hook review
+    where: code, then an LLM judge
+    summary: The opening has to earn the first two seconds, on the page before any voice credits are spent.
+    detail: |
+      - No opening on a date, a place, a subordinate clause or "It was...". No questions, no "Imagine", no stative verbs.
+      - At most 22 words per sentence, and at most 12 words of setup before the surprise.
+      - The judge compares the opening with the alternatives. Code overrides a "strong" verdict unless the opening is concrete, tense, surprising and clear, and leaves a question.
+    out: chosen opening
+
+  - id: factcheck
+    kind: gate
+    label: Fact-check and revise
+    where: LLM checker, audited in code
+    note: Loops back to Write, up to 3 rounds
+    summary: Splits the narration into atomic claims and checks each one against the pinned article.
+    detail: |
+      - Every date, number, name, place and causal link is its own claim, marked `supported`, `unsupported` or `contradicted` with a paragraph and a quote.
+      - Code checks the checker: quotes must really be in the article, numbers must appear in the evidence, and qualifiers ("more than"), hedges ("believed to") and names must survive.
+      - Every sentence must be covered by at least one claim.
+    fail: A draft still failing after three rounds is rejected, and the audit is saved to `factcheck.md`.
+    out: accepted narration
+
+  - id: plan
+    phase: Produce
+    label: Plan shots
+    where: VideoScript JSON
+    summary: Turns the accepted narration into scenes and shots, one template per shot from a library of 55.
+    detail: |
+      - Visual notes that name anything the narration doesn't are dropped, so a picture can't add an unchecked claim.
+      - The end card goes through its own hedge check (`endCardHedges`), after one once called the Mona Lisa "the most famous painting in the world".
+    out: scenes and shots
+
+  - id: assets
+    label: Assets
+    where: stills and cover
+    summary: Gathers the images each shot template calls for, and the cover.
+    detail: |
+      - Only the checked visual notes drive what's gathered.
+      - A cover is required: an unattended publish refuses to go ahead without one.
+    out: stills + cover
+
+  - id: voice
+    label: Voice
+    where: ElevenLabs + local aligner
+    summary: One take per scene, levelled so the twist doesn't fade out.
+    detail: |
+      - `eleven_v3_conversational`. The standard v3 model read at 0.48 to 0.50 s per word and broke every timing constant.
+      - Narration is levelled along its envelope, which took the hook sentence's spread from 14 dB to 5.
+      - Word timings come from a local `faster-whisper` forced aligner matched back to the script with `difflib`. Words it can't recover are recorded as `misheard`.
+    out: narration + word timings
+
+  - id: compile
+    kind: gate
+    label: Compile
+    where: hook timing, measured
+    summary: Measures the hook on the recorded narration and mixes the music under it.
+    detail: |
+      - First word heard by 1.0 s, 4 words said by 2.0 s, and the twist landing by 5.0 s.
+      - A capitalised name the aligner mishears fails.
+      - Every music bed is scaled from its own measured loudness and ducked under each spoken word.
+    fail: For a crime video, a failed timing check throws. Nothing renders with a warning.
+    out: timed VideoScript
+
+  - id: render
+    label: Render
+    where: Remotion, 1080x1920
+    summary: One Remotion composition renders the JSON, timed in word indices rather than frames.
+    detail: |
+      - A re-voiced line re-times itself, because shots are anchored to words.
+      - Apple Vision face detection checks every crop of a still and refuses any that cuts off a head.
+      - Captions stay inside the measured Shorts safe zone: 240 px top, 440 px bottom, 220 px on the right.
+      - H.264 at CRF 20, loudness-normalised to -16 LUFS.
+    out: 40 to 60 s MP4
+
+  - id: publish
+    phase: Publish
+    kind: gate
+    label: Publish
+    where: YouTube Data API
+    summary: Uploads only with an accepted fact-check, ElevenLabs narration, a 40 to 60 s runtime and a cover.
+    detail: |
+      - Resumable upload, then `thumbnails/set`.
+      - Reads the privacy status back afterwards and fails on a mismatch.
+      - LLM calls are capped per day, per story and across the sibling shorts-engine pipeline.
+    fail: Any missing precondition stops an unattended publish.

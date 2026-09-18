@@ -14,10 +14,9 @@ The genre it runs now is true crime, and that raises the stakes. A made-up date 
 Like the other projects in this category, I built it by directing AI coding agents rather than writing the code myself. It has 35 commits over three days, and 33 carry a `Co-Authored-By: Claude` trailer. It's about 34k lines of TypeScript, Python and Swift, with about 240 tests. My part was deciding the rules, and watching and *listening* to the output until it was good enough.
 
 ## The pipeline 🏭
-```text
-subject -> verdict gate -> write -> hook review -> fact-check & revise
-        -> plan shots -> assets -> voice -> compile -> render -> publish
-```
+Most of the steps below are gates: points where the pipeline can say no. Select one to see what it checks and what happens when a subject or a draft fails, or press Play to walk a subject all the way to an upload.
+
+{% include flow.html id="explainer-engine" %}
 
 ### Picking a subject 🔎
 The autopilot crawls English Wikipedia crime categories two levels deep through the MediaWiki API (`generator=categorymembers`), with hard caps on how many listings and pages it reads. It drops articles under 40,000 bytes, because a thin article can't back a script, and deduplicates subjects by their Wikidata ID.

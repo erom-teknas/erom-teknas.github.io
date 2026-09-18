@@ -6,6 +6,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 
 const WEIGHT = 'regular';
 const ICONS = [
+  'arrow-counter-clockwise',
   'arrow-left',
   'arrow-right',
   'arrow-up',
@@ -22,6 +23,9 @@ const ICONS = [
   'linkedin-logo',
   'list',
   'magnifying-glass',
+  'pause',
+  'play',
+  'prohibit',
   'rss-simple',
   'x'
 ];

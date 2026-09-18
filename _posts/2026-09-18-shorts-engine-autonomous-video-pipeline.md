@@ -15,9 +15,9 @@ It is also the biggest thing I've built by directing AI agents instead of typing
 {: .prompt-info }
 
 ## The pipeline 🏭
-```text
-ingest -> transcribe -> curate -> vision -> render -> quality gates -> shelf -> publish
-```
+Here is the whole flow, from a source video to an upload. Select a stage to see what it does, or press Play to follow one clip through it. The dashed lines are the two loops: a clip that scores too low goes back to be re-rendered, and the shelf pulls in new sources as it empties.
+
+{% include flow.html id="shorts-engine" %}
 
 Curation runs *before* vision on purpose. Early on, vision ran first and scanned the whole 40 minute source for faces. Moving it after curation, so it only looks at the chosen windows, took the vision stage from 746 s to 23 s and a full run from about 30 minutes to 18.
 

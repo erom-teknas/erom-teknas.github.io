@@ -1,0 +1,116 @@
+# Interactive flow diagram for the Pact post. Rendered by `_includes/flow.html`
+# and driven by `_js/flow.js`; the schema is documented there.
+
+title: How a check-in reaches everyone's leaderboard
+
+modes:
+  label: Habit mode
+  options:
+    - id: shared
+      label: Shared vote
+    - id: personal
+      label: Personal
+
+loops:
+  - from: leaderboard
+    to: checkin
+    label: The next check-in from anyone in the group runs the same path, until the challenge finishes.
+
+nodes:
+  - id: group
+    phase: Set up
+    label: Group
+    where: RPC in Postgres
+    summary: Friends join a group with a six character PIN.
+    detail: |
+      - PINs match `^[2-9A-HJKMNP-Z]{6}$`: 31 symbols with the look-alikes removed, about 887 million codes.
+      - `create_group` retries the insert on a `unique_violation`.
+      - Guessing is limited to 10 misses per user per 15 minutes. A miss is recorded rather than raised, so the attempt still counts.
+    out: members
+
+  - id: challenge
+    label: Challenge
+    where: Postgres
+    summary: A challenge fixes the habit mode and a time zone. Its phase is derived from the clock, never stored.
+    detail: |
+      - Phases (`proposing`, `voting`, `upcoming`, `active`, `finished`) come from a `case` over the timestamps and `now()`.
+      - Every read RPC calls `sync_challenge()` first. A per-minute pg_cron job is only a backstop.
+      - Days are calendar dates in the challenge's IANA time zone.
+      - A personal challenge is created already resolved, with no voting deadlines.
+    out: habit mode
+
+  - id: propose
+    modes: [shared]
+    label: Propose
+    where: RPC in Postgres
+    summary: Each member proposes up to five habit ideas.
+    detail: |
+      - Proposals are ordered, and that order later breaks ties in the vote.
+    out: the group's ideas
+
+  - id: vote
+    modes: [shared]
+    kind: gate
+    label: Vote
+    where: RPC in Postgres
+    note: Needs at least 2 voters to close
+    summary: Everyone casts up to five picks, and the top five become the whole group's habits.
+    detail: |
+      - Totals stay hidden until voting closes, so nobody bandwagons.
+      - Ties go to the earliest proposal: `row_number() over (order by votes desc, seq)`.
+      - Voting closes at the deadline, or early once everyone has voted. `challenge_min_voters()` is 2, so a group of one can't vote itself into tracking.
+      - Each winner is a `challenge_habits` row with `user_id` null.
+    out: five shared habits
+
+  - id: pick
+    modes: [personal]
+    label: Pick your five
+    where: RPC in Postgres
+    summary: Each member picks their own five habits. There is no vote.
+    detail: |
+      - The same `challenge_habits` table, with `user_id` set. A check constraint (`challenge_habits_origin`) and partial unique indexes keep the two kinds apart.
+      - Nobody can check in until all five slots are filled (`habits_incomplete`), so both modes play for the same maximum points.
+    out: five habits per member
+
+  - id: checkin
+    phase: Play
+    label: Check in
+    where: Browser, then a granted RPC
+    summary: A tap calls an RPC. The only optimistic update in the app is your own tick.
+    detail: |
+      - The browser has no write path of its own: every table write is revoked, and RPCs are granted back by name as `security definer` with `search_path = ''`.
+      - Timed habits start on the server, and `complete_timed_session` checks both the server's clock and the client's foreground time.
+      - A day stays open for late logging until 10:00 the next morning.
+      - A done check-in may trigger a random spot-check with a 15 minute window.
+    out: check-in row
+
+  - id: ledger
+    kind: store
+    label: Points ledger
+    where: Postgres
+    summary: "`reconcile_day_points()` works out what you should have for the day and appends the difference."
+    detail: |
+      - One point per done habit, plus one for a perfect day.
+      - Append-only: a trigger rejects updates, so an undo is just a negative entry.
+      - A per-member, per-day advisory lock stops two taps from both awarding the bonus.
+      - Scoring counts *your* habits via `member_habit_count`, never the challenge's.
+    out: new ledger rows
+
+  - id: realtime
+    label: Realtime
+    where: Supabase postgres_changes
+    summary: Every open client hears that something changed, filtered by challenge and by RLS.
+    detail: |
+      - One channel per challenge. The client never applies the row payloads.
+      - Any event triggers a debounced (250 ms) `invalidateQueries` on `['challenge', id]`, so five people checking in at once cost one refetch.
+      - It refetches on every `SUBSCRIBED`, polls every 20 s when the channel isn't joined, and refreshes when the tab is visible again.
+    out: refetch
+
+  - id: leaderboard
+    label: Leaderboard
+    where: get_leaderboard RPC
+    summary: Always `sum(points)` over the ledger, recomputed on every read.
+    detail: |
+      - Ties are broken by `verified_share`, the share of check-ins backed by more than the honor system.
+      - `previous_rank` is the same query over ledger rows before today, which drives the "moved up" arrow.
+      - Streaks are computed with gaps-and-islands, not stored.
