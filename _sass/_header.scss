@@ -1,0 +1,243 @@
+/* Site header: brand, primary navigation, search trigger, theme and menu buttons */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: $z-header;
+  height: $header-h;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--line);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  backdrop-filter: saturate(1.4) blur(14px);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+
+  /* Over the home hero the header dissolves into the scene until the page scrolls */
+  &[data-over-hero] {
+    background: transparent;
+    border-color: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .site-header:not([data-over-hero]) {
+    background: var(--bg);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+.site-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 100%;
+  max-width: calc(#{$container} + #{$gutter} * 2);
+  margin: 0 auto;
+  padding: 0 $gutter;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex-shrink: 0;
+  color: var(--ink-heading);
+
+  &:hover {
+    color: var(--ink-heading);
+
+    .brand-mark {
+      transform: rotate(135deg);
+    }
+  }
+}
+
+.brand-mark {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: rotate(45deg);
+  transition: transform 0.5s $ease-spring;
+}
+
+.brand-name {
+  font-size: 1.0625rem;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+  color: var(--ink-heading);
+}
+
+.primary-nav {
+  ul {
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    position: relative;
+    display: block;
+    padding: 0.375rem 0.625rem;
+    border-radius: $radius-sm;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+
+    &:hover {
+      color: var(--ink-heading);
+      background: var(--surface-sunken);
+    }
+
+    &[aria-current='page'] {
+      color: var(--ink-heading);
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0.625rem;
+        right: 0.625rem;
+        bottom: calc((#{$header-h} - 2.25rem) / -2);
+        height: 2px;
+        border-radius: 2px;
+        background: var(--accent);
+      }
+    }
+  }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.search-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 13.5rem;
+  height: 2.25rem;
+  margin-right: 0.25rem;
+  padding: 0 0.5rem 0 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: $radius-sm;
+  background: var(--surface);
+  color: var(--ink-faint);
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+
+  .icon {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+
+  &:hover {
+    border-color: var(--line-strong);
+    color: var(--ink-muted);
+  }
+}
+
+.search-trigger-label {
+  flex: 1;
+}
+
+.search-trigger-key {
+  font-size: 0.68rem;
+  white-space: nowrap;
+}
+
+.menu-trigger {
+  display: none;
+}
+
+/* Reading progress along the header's bottom edge (posts only). Scroll-driven,
+   so no script runs on scroll; browsers without support simply omit it. */
+.reading-progress {
+  display: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .reading-progress {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--accent);
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    animation: reading-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+
+  @keyframes reading-progress {
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+
+@media (max-width: 1099px) {
+  .site-header-inner {
+    gap: 1rem;
+  }
+
+  .primary-nav a {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+
+    &[aria-current='page']::after {
+      left: 0.5rem;
+      right: 0.5rem;
+    }
+  }
+
+  .search-trigger {
+    width: auto;
+
+    .search-trigger-label,
+    .search-trigger-key {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: $bp-nav - 1) {
+  .site-header-inner {
+    padding: 0 0.5rem 0 $gutter-sm;
+  }
+
+  .primary-nav {
+    display: none;
+  }
+
+  .search-trigger {
+    width: 2.25rem;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    border-color: transparent;
+    background: transparent;
+    color: var(--ink-muted);
+
+    .icon {
+      width: 1.15rem;
+      height: 1.15rem;
+    }
+  }
+
+  .menu-trigger {
+    display: inline-flex;
+  }
+}

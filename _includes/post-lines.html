@@ -1,0 +1,11 @@
+{%- comment -%} Compact post list: title and date per row. Param: posts {%- endcomment -%}
+<ol class="line-list">
+  {% for post in include.posts %}
+    <li>
+      <a href="{{ post.url | relative_url }}">
+        <span class="line-title" style="view-transition-name: post-{{ post.url | slugify }}">{{ post.title }}</span>
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: include.date_format | default: '%b %-d, %Y' }}</time>
+      </a>
+    </li>
+  {% endfor %}
+</ol>

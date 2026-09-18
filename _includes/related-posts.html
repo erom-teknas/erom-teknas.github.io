@@ -1,0 +1,48 @@
+{%- comment -%}
+  Up to three other posts, scored by shared tags (1 point each) and shared
+  categories (0.5 each).
+{%- endcomment -%}
+{%- assign _candidates = '' | split: '' -%}
+{%- for category in page.categories -%}
+  {%- assign _candidates = _candidates | concat: site.categories[category] -%}
+{%- endfor -%}
+{%- for tag in page.tags -%}
+  {%- assign _candidates = _candidates | concat: site.tags[tag] -%}
+{%- endfor -%}
+{%- assign _candidates = _candidates | uniq -%}
+
+{%- assign _scored = '' | split: '' -%}
+{%- for post in _candidates -%}
+  {%- if post.url == page.url -%}{%- continue -%}{%- endif -%}
+  {%- assign _score = 0 -%}
+  {%- for tag in post.tags -%}
+    {%- if page.tags contains tag -%}{%- assign _score = _score | plus: 10 -%}{%- endif -%}
+  {%- endfor -%}
+  {%- for category in post.categories -%}
+    {%- if page.categories contains category -%}{%- assign _score = _score | plus: 5 -%}{%- endif -%}
+  {%- endfor -%}
+  {%- if _score > 0 -%}
+    {%- assign _padded = _score | prepend: '0000' | slice: -4, 4 -%}
+    {%- capture _item %}{{ _padded }}::{{ forloop.index0 }}{% endcapture -%}
+    {%- assign _scored = _scored | push: _item -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- assign _scored = _scored | sort | reverse -%}
+
+{% if _scored.size > 0 %}
+  <aside class="related" aria-labelledby="related-heading">
+    <h2 class="related-heading" id="related-heading">Further reading</h2>
+    <ul class="related-list">
+      {% for _item in _scored limit: 3 %}
+        {% assign _index = _item | split: '::' | last | plus: 0 %}
+        {% assign post = _candidates[_index] %}
+        <li>
+          <a href="{{ post.url | relative_url }}">
+            <span class="related-title">{{ post.title }}</span>
+            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %-d, %Y' }}</time>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </aside>
+{% endif %}

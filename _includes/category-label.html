@@ -1,0 +1,19 @@
+{%- comment -%}
+  A category name without its leading emoji ("🌀 AWS" -> "AWS"), for display
+  type where the emoji would read as clip art. URLs keep using the full name.
+{%- endcomment -%}
+{%- assign _cl_name = include.name | strip -%}
+{%- assign _cl_words = _cl_name | split: ' ' -%}
+{%- if _cl_words.size > 1 -%}
+  {%- assign _cl_first = _cl_words | first -%}
+  {%- assign _cl_lower = _cl_first | downcase -%}
+  {%- assign _cl_upper = _cl_first | upcase -%}
+  {%- comment -%} A word with no letter case at all is an emoji (or punctuation) {%- endcomment -%}
+  {%- if _cl_lower == _cl_upper -%}
+    {{- _cl_name | remove_first: _cl_first | strip -}}
+  {%- else -%}
+    {{- _cl_name -}}
+  {%- endif -%}
+{%- else -%}
+  {{- _cl_name -}}
+{%- endif -%}

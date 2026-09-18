@@ -1,0 +1,48 @@
+/*
+  Motion. Page-to-page navigation cross-fades (and a post's title glides from
+  the list into the article) with native view transitions; the home page's
+  choreography lives in `_js/home.js`. Everything here respects reduced motion.
+*/
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.28s;
+}
+
+::view-transition-group(*) {
+  animation-duration: 0.45s;
+  animation-timing-function: $ease-out;
+}
+
+/* Scroll reveals are opt-in: `home.js` adds `.will-reveal` only when it can animate */
+.will-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .reading-progress {
+    animation-duration: auto !important;
+  }
+
+  .will-reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

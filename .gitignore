@@ -12,10 +12,7 @@ _site
 
 # NPM dependencies
 node_modules
-package-lock.json
 
 # IDE configurations
 .idea
 
-# Misc
-assets/js/dist

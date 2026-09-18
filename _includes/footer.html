@@ -1,0 +1,28 @@
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="footer-sign">
+      <div class="footer-stickers">
+        {% assign _github = site.social.links | where_exp: 'l', "l contains 'github.com'" | first %}
+        {% if _github %}
+          <a href="{{ _github | strip }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <img src="{{ '/assets/images/me/git-160.png' | relative_url }}" width="80" height="80" alt="" loading="lazy" decoding="async">
+          </a>
+        {% endif %}
+        {% if site.social.email %}
+          <a href="mailto:{{ site.social.email }}" aria-label="Email">
+            <img src="{{ '/assets/images/me/email-160.png' | relative_url }}" width="80" height="80" alt="" loading="lazy" decoding="async">
+          </a>
+        {% endif %}
+      </div>
+      <div class="footer-meta">
+        <p class="footer-name">{{ site.social.name }}</p>
+        <p>
+          © {{ 'now' | date: '%Y' }}. Posts are licensed under
+          <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener" target="_blank">CC BY 4.0</a>.
+        </p>
+        <p>Built with <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>.</p>
+      </div>
+    </div>
+    {% include social-links.html %}
+  </div>
+</footer>

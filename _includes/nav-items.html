@@ -1,0 +1,9 @@
+{%- comment -%} Primary navigation: Home, then the tabs in `_tabs/` by `order`. {%- endcomment -%}
+<li>
+  <a href="{{ '/' | relative_url }}"{% if page.layout == 'home' %} aria-current="page"{% endif %}>Home</a>
+</li>
+{%- for tab in site.tabs %}
+  <li>
+    <a href="{{ tab.url | relative_url }}"{% if tab.url == page.url %} aria-current="page"{% endif %}>{{ tab.title }}</a>
+  </li>
+{%- endfor %}

@@ -1,0 +1,86 @@
+---
+layout: default
+---
+
+{%- comment -%}
+  Posts reference screenshots as `../assets/...` or `assets/...`, paths
+  Chirpy used to rewrite. Resolve them to the site root here so the Markdown
+  stays untouched, and let the browser defer off-screen images.
+{%- endcomment -%}
+{%- assign _assets_root = '/assets/' | relative_url -%}
+{%- capture _assets_src %}src="{{ _assets_root }}{% endcapture -%}
+{%- assign _body = content
+  | replace: 'src="../assets/', _assets_src
+  | replace: 'src="assets/', _assets_src
+  | replace: '<img ', '<img loading="lazy" decoding="async" '
+-%}
+
+{%- assign _words = content | strip_html | number_of_words -%}
+{%- assign _minutes = _words | divided_by: 200 | at_least: 1 -%}
+
+<article class="post" data-post>
+  <header class="post-head container">
+    {% if page.categories.size > 0 %}
+      <nav class="post-trail" aria-label="Categories">
+        {% for category in page.categories %}
+          <a href="{{ site.baseurl }}/categories/{{ category | slugify | url_encode }}/">{% include category-label.html name=category %}</a>
+          {%- unless forloop.last -%}<span class="post-trail-sep" aria-hidden="true">/</span>{%- endunless -%}
+        {% endfor %}
+      </nav>
+    {% endif %}
+
+    <h1 class="post-title" style="view-transition-name: post-{{ page.url | slugify }}">{{ page.title }}</h1>
+
+    <div class="post-meta">
+      <a class="post-author" href="{{ '/about/' | relative_url }}">{{ site.social.name }}</a>
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%b %-d, %Y' }}</time>
+      {% if page.last_modified_at %}
+        {% assign _updated = page.last_modified_at | date: '%Y-%m-%d' %}
+        {% assign _posted = page.date | date: '%Y-%m-%d' %}
+        {% if _updated != _posted %}
+          <span>Updated <time datetime="{{ page.last_modified_at | date_to_xmlschema }}">{{ page.last_modified_at | date: '%b %-d, %Y' }}</time></span>
+        {% endif %}
+      {% endif %}
+      <span title="{{ _words }} words">{{ _minutes }} min read</span>
+    </div>
+  </header>
+
+  <div class="post-body container">
+    <div class="prose" data-prose>
+      {{ _body }}
+    </div>
+
+    {% if site.toc and page.toc %}
+      <aside class="toc-rail" aria-label="On this page" data-toc hidden>
+        <p class="toc-title">On this page</p>
+        <nav class="toc-nav"></nav>
+      </aside>
+    {% endif %}
+  </div>
+
+  <footer class="post-foot container">
+    {% if page.tags.size > 0 %}
+      <ul class="tag-list" aria-label="Tags">
+        {% for tag in page.tags %}
+          <li><a class="tag-chip" href="{{ site.baseurl }}/tags/{{ tag | slugify | url_encode }}/">{{ tag }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <div class="post-share">
+      <p class="post-license">
+        This post is licensed under
+        <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener" target="_blank">CC BY 4.0</a>
+        by the author.
+      </p>
+      {% include share.html %}
+    </div>
+
+    {% include post-nav.html %}
+    {% include related-posts.html %}
+
+    {% if site.comments.provider == 'giscus' and page.comments %}
+      {% include giscus.html %}
+    {% endif %}
+  </footer>
+</article>

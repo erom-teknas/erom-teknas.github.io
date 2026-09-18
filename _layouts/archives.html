@@ -1,0 +1,18 @@
+---
+layout: default
+---
+
+<article class="page container">
+  <header class="page-head">
+    <h1 class="page-title">{{ page.title }}</h1>
+    <p class="page-lede">{{ site.posts | size }} posts, newest first.</p>
+  </header>
+
+  {% assign _years = site.posts | group_by_exp: 'post', "post.date | date: '%Y'" %}
+  {% for year in _years %}
+    <section class="year-group" aria-labelledby="year-{{ year.name }}">
+      <h2 class="year-label" id="year-{{ year.name }}">{{ year.name }}</h2>
+      {% include post-lines.html posts=year.items date_format='%b %-d' %}
+    </section>
+  {% endfor %}
+</article>

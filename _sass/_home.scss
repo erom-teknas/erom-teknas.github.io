@@ -1,0 +1,562 @@
+/* Home page: the topology hero, the post index, the topic index, side projects */
+
+/* --- Hero --- */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  min-height: min(100vh, 62rem);
+  min-height: min(100svh, 62rem);
+  margin-top: calc(#{$header-h} * -1);
+  padding: calc(#{$header-h} + 4rem) 0 6.5rem;
+  overflow: hidden;
+}
+
+.hero-stage {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+
+  &.is-ready canvas {
+    opacity: 1;
+  }
+
+  /* Scrim so the headline always reads cleanly over the scene */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(to right, var(--bg) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 32%, transparent 62%),
+      linear-gradient(to top, var(--bg) 0%, transparent 28%);
+  }
+}
+
+/* Without WebGL (or before it loads) a quiet dot grid stands in for the scene */
+.hero-stage:not(.is-ready)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse at 70% 45%, #000 0%, transparent 65%);
+  opacity: 0.6;
+}
+
+.hero-inner {
+  position: relative;
+}
+
+.hero-kicker {
+  @include label;
+
+  margin-bottom: 1.5rem;
+  color: var(--accent);
+}
+
+.hero-title {
+  max-width: 21ch; /* two lines: breaks after "infrastructure," */
+  margin-bottom: 1.75rem;
+  font-size: clamp(2.5rem, 1.1rem + 3.9vw, 4.625rem);
+  font-weight: 680;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+
+  .word {
+    display: inline-block;
+  }
+}
+
+.hero-lede {
+  max-width: 31rem;
+  margin-bottom: 2.25rem;
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--ink-muted);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.75rem;
+}
+
+.hero-legend {
+  @include mono;
+
+  position: absolute;
+  right: max(#{$gutter}, calc((100vw - #{$container}) / 2));
+  bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+}
+
+.legend-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-wash);
+}
+
+/* Topic labels projected from the 3D scene */
+.hero-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.topo-label {
+  @include mono;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.2rem 0.45rem;
+  border-radius: $radius-xs;
+  font-size: 0.72rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--ink-heading);
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  border: 1px solid var(--line);
+  pointer-events: auto;
+  will-change: transform;
+  transition: color 0.2s ease, border-color 0.2s ease, opacity 0.3s ease;
+
+  &:hover,
+  &.is-active {
+    color: var(--accent);
+    border-color: var(--accent-line);
+  }
+
+  span {
+    margin-left: 0.4rem;
+    color: var(--ink-faint);
+  }
+}
+
+.hero-tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  max-width: 18rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: $radius-sm;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  pointer-events: none;
+  will-change: transform;
+
+  strong {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--ink-heading);
+  }
+
+  span {
+    @include mono;
+
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+  }
+}
+
+@media (max-width: $bp-md - 1) {
+  .hero {
+    min-height: auto;
+    padding-top: calc(#{$header-h} + 44vh);
+    padding-bottom: 3.5rem;
+  }
+
+  /* The scene takes the top of the screen; the headline sits below it */
+  .hero-stage {
+    bottom: auto;
+    height: calc(#{$header-h} + 48vh);
+  }
+
+  .hero-stage::after {
+    background: linear-gradient(to top, var(--bg) 0%, transparent 30%);
+  }
+
+  .hero-legend {
+    display: none;
+  }
+
+  .topo-label {
+    font-size: 0.66rem;
+  }
+}
+
+/* --- Post index --- */
+
+.post-index {
+  padding-top: 5rem;
+}
+
+.post-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.post-row {
+  position: relative;
+  border-bottom: 1px solid var(--line);
+}
+
+.post-row-link {
+  position: relative;
+  display: grid;
+  grid-template-columns: 10rem minmax(0, 1fr) 2rem;
+  grid-template-areas:
+    'meta title arrow'
+    'meta excerpt arrow';
+  column-gap: 2.5rem;
+  padding: 1.75rem 0;
+  color: inherit;
+
+  /* An accent rule grows along the left edge on hover */
+  &::before {
+    content: '';
+    position: absolute;
+    left: -1.25rem;
+    top: 1.75rem;
+    bottom: 1.75rem;
+    width: 2px;
+    border-radius: 2px;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.35s $ease-out;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: inherit;
+
+    &::before {
+      transform: scaleY(1);
+    }
+
+    .post-row-title {
+      color: var(--accent);
+    }
+
+    .post-row-arrow {
+      color: var(--accent);
+      transform: translate(3px, -3px);
+    }
+  }
+}
+
+.post-row-meta {
+  @include mono;
+
+  grid-area: meta;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-top: 0.35rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--ink-faint);
+
+  time {
+    color: var(--ink-muted);
+  }
+}
+
+.post-row-title {
+  grid-area: title;
+  margin-bottom: 0.5rem;
+  font-size: 1.375rem;
+  line-height: 1.25;
+  transition: color 0.2s ease;
+}
+
+.post-row-excerpt {
+  grid-area: excerpt;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  max-width: 42rem;
+  font-size: 0.975rem;
+  line-height: 1.6;
+  color: var(--ink-muted);
+}
+
+.post-row-arrow {
+  grid-area: arrow;
+  justify-self: end;
+  padding-top: 0.35rem;
+  color: var(--ink-faint);
+  transition: transform 0.3s $ease-out, color 0.2s ease;
+
+  .icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+.post-row.is-featured {
+  .post-row-link {
+    padding: 2.5rem 0 2.75rem;
+  }
+
+  .post-row-title {
+    margin-bottom: 0.875rem;
+    font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  .post-row-excerpt {
+    -webkit-line-clamp: 3;
+    font-size: 1.0625rem;
+  }
+}
+
+@media (max-width: $bp-md - 1) {
+  .post-index {
+    padding-top: 3rem;
+  }
+
+  .post-row-link {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'meta'
+      'title'
+      'excerpt';
+    padding: 1.375rem 0;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .post-row-meta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0 0.75rem;
+    padding: 0 0 0.5rem;
+  }
+
+  .post-row-arrow {
+    display: none;
+  }
+
+  .post-row-title {
+    font-size: 1.1875rem;
+  }
+
+  .post-row.is-featured .post-row-link {
+    padding: 1.75rem 0 2rem;
+  }
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 2rem;
+}
+
+.pager-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid var(--line);
+  border-radius: $radius-sm;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ink-heading);
+
+  &:hover {
+    border-color: var(--accent-line);
+    color: var(--accent);
+  }
+
+  &.is-disabled {
+    opacity: 0.4;
+  }
+}
+
+.pager-status {
+  @include mono;
+
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+}
+
+/* --- Topic index: the topics as oversized type --- */
+
+.topic-index {
+  padding-top: 6rem;
+}
+
+.topic-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: topic;
+}
+
+.topic-row {
+  border-bottom: 1px solid var(--line);
+}
+
+.topic-row-link {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, auto) minmax(0, 1fr);
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.25rem 0;
+  color: var(--ink-heading);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--ink-heading);
+
+    .topic-row-name {
+      color: var(--accent);
+      transform: translateX(0.5rem);
+    }
+
+    .topic-row-posts {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+.topic-row-count {
+  @include mono;
+
+  font-size: 0.9rem;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.topic-row-name {
+  font-size: clamp(2rem, 1rem + 3.6vw, 4.25rem);
+  font-weight: 650;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  transition: color 0.25s ease, transform 0.4s $ease-out;
+}
+
+.topic-row-posts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.125rem;
+  min-width: 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  text-align: right;
+  color: var(--ink-muted);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.4s $ease-out;
+
+  span {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (hover: none), (max-width: $bp-md - 1) {
+  .topic-row-link {
+    grid-template-columns: 3rem minmax(0, 1fr);
+  }
+
+  .topic-row-posts {
+    display: none;
+  }
+}
+
+/* --- Side projects band --- */
+
+.projects-band {
+  padding-top: 6rem;
+}
+
+.projects-band-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  a {
+    display: grid;
+    grid-template-columns: 14rem minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 0.25rem 2rem;
+    padding: 1.375rem 0;
+    color: var(--ink-heading);
+
+    &:hover .projects-band-name {
+      color: var(--accent);
+    }
+  }
+}
+
+.projects-band-name {
+  font-size: 1.5rem;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  transition: color 0.2s ease;
+}
+
+.projects-band-summary {
+  color: var(--ink-muted);
+}
+
+.projects-band-kind {
+  @include mono;
+
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+@media (max-width: $bp-md - 1) {
+  .projects-band-list a {
+    grid-template-columns: minmax(0, 1fr) auto;
+
+    .projects-band-summary {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+  }
+}

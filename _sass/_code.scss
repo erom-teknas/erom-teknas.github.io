@@ -1,0 +1,167 @@
+/* Code: inline code, fenced blocks (enhanced by `_js/code.js`) and Rouge token colours */
+
+code,
+kbd,
+pre,
+samp {
+  font-family: $font-mono;
+  font-variant-ligatures: none;
+}
+
+:not(pre) > code {
+  padding: 0.12em 0.36em;
+  border: 1px solid var(--line);
+  border-radius: $radius-xs;
+  background: var(--surface-sunken);
+  font-size: 0.86em;
+  color: var(--ink-heading);
+  overflow-wrap: anywhere;
+}
+
+a > code {
+  color: inherit !important;
+}
+
+div.highlighter-rouge,
+figure.highlight {
+  margin: 1.5rem 0;
+  border: 1px solid var(--line);
+  border-radius: $radius;
+  background: var(--code-bg);
+  overflow: hidden;
+}
+
+.code-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 2.5rem;
+  padding: 0 0.375rem 0 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.code-lang {
+  @include label;
+
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+}
+
+.code-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: 1.875rem;
+  padding: 0 0.5rem;
+  border: 0;
+  border-radius: $radius-sm;
+  background: transparent;
+  color: var(--ink-faint);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+
+  .icon {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+
+  &:hover {
+    background: var(--surface-sunken);
+    color: var(--ink-heading);
+  }
+
+  &.is-copied {
+    color: var(--code-string);
+  }
+}
+
+.highlight {
+  pre {
+    margin: 0;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    tab-size: 2;
+    color: var(--code-ink);
+    background: transparent;
+  }
+
+  code {
+    background: none;
+    border: 0;
+    padding: 0;
+  }
+
+  /* Rouge tokens */
+  .k, .kd, .kn, .kp, .kr, .kt, .kv, .kc {
+    color: var(--code-keyword);
+  }
+
+  .s, .sa, .sb, .sc, .dl, .sd, .s2, .se, .sh, .sx, .s1, .ss, .sr, .si {
+    color: var(--code-string);
+  }
+
+  .l, .ld, .m, .mb, .mf, .mh, .mi, .il, .mo, .mx, .bp {
+    color: var(--code-number);
+  }
+
+  .nf, .fm, .nc, .nt, .nl, .nd, .ne, .nn {
+    color: var(--code-name);
+  }
+
+  .nb, .na, .no, .py, .nv, .vc, .vg, .vi, .vm {
+    color: var(--code-builtin);
+  }
+
+  .o, .ow, .p, .pi {
+    color: var(--code-op);
+  }
+
+  .c, .ch, .cd, .cm, .cp, .cpf, .c1, .cs {
+    color: var(--code-comment);
+    font-style: italic;
+  }
+
+  .gp, .gl, .gt {
+    color: var(--code-comment);
+  }
+
+  .gh, .gu {
+    color: var(--code-name);
+    font-weight: 600;
+  }
+
+  .gd {
+    color: var(--code-removed);
+    background: var(--code-removed-bg);
+  }
+
+  .gi {
+    color: var(--code-string);
+    background: var(--code-added-bg);
+  }
+
+  .ge {
+    font-style: italic;
+  }
+
+  .gs {
+    font-weight: 600;
+  }
+
+  .err {
+    color: var(--code-removed);
+  }
+}
+
+@media (max-width: $bp-sm - 1) {
+  .prose > div.highlighter-rouge {
+    margin-left: -$gutter-sm;
+    margin-right: -$gutter-sm;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+  }
+}

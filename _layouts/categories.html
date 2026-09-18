@@ -1,0 +1,49 @@
+---
+layout: default
+---
+
+{%- comment -%} Top-level categories (a post's first category) with their sub-categories. {%- endcomment -%}
+{%- assign _tops = '' | split: '' -%}
+{%- for post in site.posts -%}
+  {%- assign _top = post.categories | first -%}
+  {%- if _top -%}
+    {%- unless _tops contains _top -%}{%- assign _tops = _tops | push: _top -%}{%- endunless -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- assign _tops = _tops | sort -%}
+
+<article class="page container">
+  <header class="page-head">
+    <h1 class="page-title">{{ page.title }}</h1>
+    <p class="page-lede">{{ _tops | size }} topics, each with its own sub-categories.</p>
+  </header>
+
+  <div class="category-grid">
+    {% for top in _tops %}
+      {% assign _subs = '' | split: '' %}
+      {% for post in site.categories[top] %}
+        {% if post.categories.first == top and post.categories[1] %}
+          {% unless _subs contains post.categories[1] %}
+            {% assign _subs = _subs | push: post.categories[1] %}
+          {% endunless %}
+        {% endif %}
+      {% endfor %}
+      <section class="category-card" aria-labelledby="cat-{{ forloop.index }}">
+        <h2 id="cat-{{ forloop.index }}" class="category-name">
+          <a href="{{ site.baseurl }}/categories/{{ top | slugify | url_encode }}/">{% include category-label.html name=top %}</a>
+          <span class="category-count">{{ site.categories[top] | size }}</span>
+        </h2>
+        {% if _subs.size > 0 %}
+          <ul class="category-subs">
+            {% for sub in _subs %}
+              <li>
+                <a href="{{ site.baseurl }}/categories/{{ sub | slugify | url_encode }}/">{% include category-label.html name=sub %}</a>
+                <span class="category-count">{{ site.categories[sub] | size }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </section>
+    {% endfor %}
+  </div>
+</article>

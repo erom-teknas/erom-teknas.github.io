@@ -1,0 +1,22 @@
+{%- assign _g = site.comments.giscus -%}
+<section class="comments" aria-labelledby="comments-heading">
+  <h2 class="related-heading" id="comments-heading">Comments</h2>
+  <div class="giscus"></div>
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="{{ _g.repo }}"
+    data-repo-id="{{ _g.repo_id }}"
+    data-category="{{ _g.category }}"
+    data-category-id="{{ _g.category_id }}"
+    data-mapping="{{ _g.mapping | default: 'pathname' }}"
+    data-strict="0"
+    data-reactions-enabled="{{ _g.reactions_enabled | default: '1' }}"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="{{ site.lang | default: 'en' }}"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+  ></script>
+</section>

@@ -1,0 +1,20 @@
+---
+layout: default
+title: Page not found
+permalink: /404.html
+sitemap: false
+---
+
+<article class="page container not-found">
+  <header class="page-head">
+    <p class="page-kicker">404</p>
+    <h1 class="page-title">This page isn't on the map.</h1>
+    <p class="page-lede">The link may be old, or the post may have moved. Search or start from the latest guides.</p>
+  </header>
+  <div class="not-found-actions">
+    <button type="button" class="btn btn-primary" data-open-palette>
+      {% include icon.html name="magnifying-glass" %} Search posts
+    </button>
+    <a class="text-link" href="{{ '/' | relative_url }}">Latest guides</a>
+  </div>
+</article>

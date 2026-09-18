@@ -1,7 +1,7 @@
 ---
 # the default layout is 'page'
-icon: fas fa-info-circle
-order: 4
+order: 5
+portrait: /assets/images/me/me-640.jpg
 ---
 Hello there! 👋 I'm Sanket Vilas More, a seasoned DevOps engineer with over 13 years of experience in the industry. I'm passionate about leveraging cutting-edge technologies to streamline development processes and drive continuous improvement.
 

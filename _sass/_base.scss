@@ -1,0 +1,373 @@
+/* Reset, document defaults, and small shared primitives */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(#{$header-h} + 1.5rem);
+  scrollbar-gutter: stable;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: $font-sans;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  flex: 1 0 auto;
+  outline: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ink-heading);
+  text-wrap: balance;
+}
+
+p,
+li,
+dd {
+  text-wrap: pretty;
+}
+
+p {
+  margin: 0;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    color: var(--accent-strong);
+  }
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: var(--accent-wash);
+  color: var(--ink-heading);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: $radius-xs;
+}
+
+kbd {
+  @include mono;
+
+  display: inline-block;
+  min-width: 1.4rem;
+  padding: 0.05rem 0.35rem;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: $radius-xs;
+  background: var(--surface);
+  font-size: 0.72rem;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--ink-muted);
+}
+
+hr {
+  height: 0;
+  margin: 2.5rem 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.container {
+  width: 100%;
+  max-width: calc(#{$container} + #{$gutter} * 2);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $gutter;
+  padding-right: $gutter;
+}
+
+@media (max-width: $bp-md - 1) {
+  .container {
+    padding-left: $gutter-sm;
+    padding-right: $gutter-sm;
+  }
+}
+
+.icon {
+  width: 1.1em;
+  height: 1.1em;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: $z-skip;
+  padding: 0.5rem 0.875rem;
+  border-radius: $radius-sm;
+  background: var(--ink-heading);
+  color: var(--bg);
+  font-weight: 500;
+  transform: translateY(-200%);
+  transition: transform 0.2s ease;
+
+  &:focus {
+    transform: none;
+    color: var(--bg);
+  }
+}
+
+.visually-hidden {
+  @include visually-hidden;
+}
+
+/* --- Buttons and links --- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.75rem;
+  padding: 0 1.125rem;
+  border: 1px solid transparent;
+  border-radius: $radius-sm;
+  font-size: 0.95rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.12s ease;
+
+  .icon {
+    transition: transform 0.25s $ease-out;
+  }
+
+  &:hover .icon {
+    transform: translateX(3px);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.btn-primary {
+  background: var(--ink-heading);
+  color: var(--bg);
+
+  &:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+}
+
+.btn-quiet {
+  border-color: var(--line-strong);
+  background: transparent;
+  color: var(--ink-heading);
+
+  &:hover {
+    border-color: var(--accent-line);
+    background: var(--accent-wash);
+    color: var(--accent);
+  }
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--ink-heading);
+  font-weight: 500;
+  border-bottom: 1px solid var(--line-strong);
+
+  &:hover {
+    color: var(--accent);
+    border-color: var(--accent-line);
+  }
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: $radius-sm;
+  background: transparent;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.12s ease;
+
+  .icon {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  &:hover {
+    color: var(--ink-heading);
+    background: var(--surface-sunken);
+  }
+
+  &:active {
+    transform: scale(0.94);
+  }
+}
+
+/* --- Section headers shared by the home page and listings --- */
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink-heading);
+}
+
+.section-meta {
+  @include mono;
+
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+
+a.section-meta {
+  border-bottom: 0;
+  color: var(--ink-muted);
+
+  &:hover {
+    color: var(--accent);
+  }
+}
+
+/* Tag chips */
+.tag-list,
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag-chip {
+  @include mono;
+
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: $radius-sm;
+  background: var(--surface);
+  font-size: 0.8rem;
+  line-height: 1.3;
+  color: var(--ink);
+
+  &::before {
+    content: '#';
+    margin-right: -0.35rem;
+    color: var(--ink-faint);
+  }
+
+  &:hover {
+    color: var(--accent);
+    border-color: var(--accent-line);
+    background: var(--accent-wash);
+  }
+}
+
+.tag-count {
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+}
+
+/* Back to top */
+.back-to-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: $z-backtotop;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--line);
+  border-radius: $radius-sm;
+  background: var(--surface);
+  color: var(--ink-muted);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s $ease-out, opacity 0.2s ease;
+
+  &[hidden] {
+    display: none;
+  }
+
+  &:hover {
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+}

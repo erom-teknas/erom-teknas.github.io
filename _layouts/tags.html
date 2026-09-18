@@ -1,0 +1,24 @@
+---
+layout: default
+---
+
+{%- assign _tags = '' | split: '' -%}
+{%- for t in site.tags -%}{%- assign _tags = _tags | push: t[0] -%}{%- endfor -%}
+{%- assign _tags = _tags | sort_natural -%}
+
+<article class="page container">
+  <header class="page-head">
+    <h1 class="page-title">{{ page.title }}</h1>
+    <p class="page-lede">{{ _tags | size }} tags across {{ site.posts | size }} posts.</p>
+  </header>
+
+  <ul class="tag-cloud">
+    {% for tag in _tags %}
+      <li>
+        <a class="tag-chip" href="{{ site.baseurl }}/tags/{{ tag | slugify | url_encode }}/">
+          {{ tag }} <span class="tag-count">{{ site.tags[tag].size }}</span>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</article>
