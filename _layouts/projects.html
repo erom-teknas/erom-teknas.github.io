@@ -1,0 +1,60 @@
+---
+layout: default
+# Projects, driven by `_data/projects.yml`
+---
+
+<article class="page container">
+  <header class="page-head">
+    <h1 class="page-title">{{ page.title }}</h1>
+    <p class="page-lede">Recent side projects, built with AI-assisted development.</p>
+  </header>
+
+  <div class="project-list">
+    {% for project in site.data.projects %}
+      {% assign _id = project.name | slugify %}
+      <section class="project{% unless project.image %} no-media{% endunless %}" id="{{ _id }}" aria-labelledby="{{ _id }}-name" data-reveal>
+        {% if project.image %}
+          <figure class="project-media">
+            <img
+              src="{{ project.image.src | relative_url }}"
+              alt="{{ project.image.alt | escape }}"
+              width="520"
+              height="800"
+              loading="lazy"
+              decoding="async"
+            >
+          </figure>
+        {% endif %}
+
+        <div class="project-body">
+          <h2 class="project-name" id="{{ _id }}-name">{{ project.name }}</h2>
+          <p class="project-kind">{{ project.kind }}</p>
+          <p class="project-summary">{{ project.summary }}</p>
+
+          {% if project.details %}
+            <ul class="project-details">
+              {% for item in project.details %}
+                <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          {% if project.stack %}
+            <ul class="project-stack" aria-label="Built with">
+              {% for item in project.stack %}
+                <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          {% if project.link %}
+            <a class="btn btn-quiet" href="{{ project.link.url }}" target="_blank" rel="noopener noreferrer">
+              {{ project.link.label }}
+              {% include icon.html name="arrow-up-right" %}
+            </a>
+          {% endif %}
+        </div>
+      </section>
+    {% endfor %}
+  </div>
+</article>
