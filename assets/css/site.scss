@@ -3,19 +3,19 @@
 
 /*
   The site's stylesheet. Partials live in `_sass/`:
-  variables and colour tokens first, then base styles, then components.
+  colour tokens first, then base styles, then components. Each partial
+  pulls in `_variables.scss` itself with `@use`.
 */
 
-@import 'variables';
-@import 'tokens';
-@import 'fonts';
-@import 'base';
-@import 'header';
-@import 'overlays';
-@import 'home';
-@import 'post';
-@import 'prose';
-@import 'code';
-@import 'pages';
-@import 'footer';
-@import 'motion';
+@use 'tokens';
+@use 'fonts';
+@use 'base';
+@use 'header';
+@use 'overlays';
+@use 'home';
+@use 'post';
+@use 'prose';
+@use 'code';
+@use 'pages';
+@use 'footer';
+@use 'motion';
