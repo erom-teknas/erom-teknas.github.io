@@ -27,6 +27,26 @@
     src: /assets/images/projects/pact.jpg
     alt: Pact's start screen, showing a sample group leaderboard with points and streaks
 
+- name: IronLog
+  kind: Web app
+  tagline: An offline-first weightlifting tracker for your phone.
+  summary: >-
+    A private, offline-first weightlifting tracker that installs to your home
+    screen. Every workout is stored on the device, and cloud backup stays off
+    until you turn it on.
+  details:
+    - Logs sets, reps, weight and RPE, with a rest timer, supersets and a plate calculator.
+    - Spots PRs by weight, volume and estimated 1RM, and charts strength and body weight over time.
+    - Plans add weight as you progress and deload by 10% after two failed sessions in a row.
+    - No account, ads or telemetry. Back up to a JSON file, or move your data to another phone by QR code.
+  stack: [React, Vite, IndexedDB, Supabase, PWA]
+  link:
+    url: https://iron-log-v1.vercel.app
+    label: Open IronLog
+  image:
+    src: /assets/images/projects/ironlog.jpg
+    alt: IronLog logging a bench press set, with the last three sessions, a PR badge and rest timer presets
+
 - name: explainer-engine
   kind: Explainer pipeline
   tagline: Automated true-crime explainer Shorts about closed cases.
