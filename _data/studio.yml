@@ -1,0 +1,100 @@
+# The Studio tab (`_tabs/studio.md`, `_layouts/studio.html`).
+#
+# Every number here must come from a repo, log or dashboard, with the date it
+# was read in `as_of`. No estimates, no rounding up.
+
+name: eromteknas
+email: CONTACT_EMAIL
+
+lede: >-
+  A one-person software studio run by Sanket More. It builds consumer apps and
+  automated video pipelines, with Claude as the engineering team.
+
+# Shown as a small fact strip under the header
+stats:
+  - value: "1,094"
+    label: of 1,242 commits co-authored by Claude, across eight repos
+  - value: "3"
+    label: web apps live in production
+  - value: "189k"
+    label: views across 76 public Shorts from the clipping pipeline
+as_of: Commit counts as of October 8, 2026; Shorts views as of October 5, 2026, from the YouTube Analytics API.
+
+# Fields: name, kind, status, line, link (optional { url, label })
+products:
+  - name: Pact
+    kind: Web app
+    status: Live
+    line: Group habit challenges with a live leaderboard. Friends join with a PIN and compete on five daily habits.
+    link:
+      url: https://pact-deploy.vercel.app
+      label: pact-deploy.vercel.app
+
+  - name: IronLog
+    kind: Web app
+    status: Live
+    line: An offline-first weightlifting tracker that keeps every workout on the phone, with no account or telemetry.
+    link:
+      url: https://iron-log-v1.vercel.app
+      label: iron-log-v1.vercel.app
+
+  - name: Tripodiary
+    kind: Web app
+    status: Live
+    line: Collaborative trip planning, with a plan the group votes on and a chat for each trip.
+    link:
+      url: https://tripodiary.vercel.app
+      label: tripodiary.vercel.app
+
+  - name: shorts-engine
+    kind: Video pipeline
+    status: Publishing
+    line: Turns long-form podcasts and streams into captioned vertical Shorts and publishes them to YouTube on a daily schedule.
+    link:
+      url: /posts/shorts-engine-autonomous-video-pipeline/
+      label: How it works
+
+  - name: explainer-engine
+    kind: Video pipeline
+    status: Publishing
+    line: Researches, fact-checks, narrates and renders short true-crime explainers, only about cases a court has closed.
+    link:
+      url: /posts/explainer-engine-fact-checked-true-crime/
+      label: How it works
+
+  - name: Wat Happened
+    kind: Video pipeline
+    status: Publishing
+    line: Long-form cartoon history episodes with a paper-cut puppet host, made and scheduled weekly on YouTube.
+    link:
+      url: https://www.youtube.com/@wathappened
+      label: YouTube
+
+  - name: GLP-1 companion
+    kind: Mobile app
+    status: In design
+    line: A companion app for people taking GLP&#8209;1 medication.
+
+  - name: Spend dashboard
+    kind: Internal tool
+    status: Internal
+    line: Tracks the AI and API spend of the video pipelines per video, per step and per day against a monthly budget.
+
+# How Claude is used. Keep each point verifiable.
+claude:
+  - title: Claude Code writes the code
+    body: >-
+      The products are built by directing Claude Code agents. I make the
+      product calls, review the changes and test the result on the live app;
+      1,094 of the 1,242 commits across the eight repos carry a Claude
+      co-author trailer.
+  - title: Each repo keeps its own memory
+    body: >-
+      An AGENTS.md in every repo records decisions and incident notes (symptom,
+      root cause, fix, tests), so the next agent session starts where the last
+      one stopped instead of repeating its mistakes.
+  - title: Claude also runs in production
+    body: >-
+      In explainer-engine, a headless Claude Code session running Opus directs
+      its hand-drawn films and Claude plans each video, inside an autopilot
+      that publishes without a person in the loop.

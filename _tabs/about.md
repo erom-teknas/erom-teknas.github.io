@@ -1,6 +1,6 @@
 ---
 # the default layout is 'page'
-order: 5
+order: 6
 portrait: /assets/images/me/me-640.jpg
 ---
 Hello there! 👋 I'm Sanket Vilas More, a seasoned DevOps engineer with over 15 years of experience in the industry. I'm passionate about leveraging cutting-edge technologies to streamline development processes and drive continuous improvement.
