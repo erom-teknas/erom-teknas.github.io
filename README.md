@@ -1,6 +1,6 @@
 # Sanket More: DevOps guides
 
-Source for [erom-teknas.github.io](https://erom-teknas.github.io): hands-on guides to AWS,
+Source for [eromteknas.com](https://eromteknas.com): hands-on guides to AWS,
 Kubernetes, Terraform and CI/CD, plus a few side projects.
 
 It is a [Jekyll](https://jekyllrb.com) site with its own theme, deployed to GitHub Pages by
