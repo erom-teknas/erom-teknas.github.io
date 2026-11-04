@@ -3,9 +3,9 @@
 order: 6
 portrait: /assets/images/me/me-640.jpg
 ---
-Hello there! 👋 I'm Sanket Vilas More, a Senior DevOps / Platform Engineer in Toronto with 15 years in software delivery, 10 of them building cloud infrastructure and CI/CD on AWS, Kubernetes (EKS, OpenShift) and Terraform. Across three enterprises I've cut non-production cloud spend by 30%, cut user-facing latency by 20% and removed most manual release work. I build AI agents with Claude Code, at work and in my own time.
+Hello there! 👋 I'm Sanket Vilas More, a Senior DevOps / Platform Engineer in Toronto with 16 years in software delivery, 11 of them building cloud infrastructure and CI/CD on AWS, Kubernetes (EKS, OpenShift) and Terraform. Across three enterprises I've cut non-production cloud spend by 30%, cut user-facing latency by 20% and removed most manual release work. I build AI agents with Claude Code, at work and in my own time.
 
-> **Latest work:** at Roche I built an AI support agent with Claude Code. Grounded in product knowledge documents and wrapped in guardrails, it investigates a reported issue in the target environment, classifies it as an application or infrastructure problem, writes the root cause analysis and raises a pull request with the fix for the owning team. It drastically reduced ad hoc support requests from the development team.
+> **Latest work:** at Roche I built an AI support agent with Claude Code. Grounded in product knowledge documents and wrapped in guardrails, it investigates a reported issue in the target environment, classifies it as an application or infrastructure problem, writes the root cause analysis and raises a pull request with the fix for the owning team. It cut ad hoc support requests from developers by 60%.
 {: .prompt-info }
 
 ## Experience
@@ -14,8 +14,8 @@ Hello there! 👋 I'm Sanket Vilas More, a Senior DevOps / Platform Engineer in 
 **DevOps Infrastructure Engineer** · Toronto, ON · Nov 2024 to present
 
 - Built scheduled shutdown of EKS worker nodes outside working hours with GitHub Actions and Karpenter, cutting compute cost by 30% across all 8 non-production environments.
-- Built an AI support agent with Claude Code, grounded in product knowledge documents and wrapped in guardrails, that investigates a reported issue in the target environment, classifies it as an application or infrastructure problem, writes the root cause analysis and raises a pull request with the fix for the owning team. It drastically reduced ad hoc support requests from the development team and shortened the path from report to fix.
-- Built Jenkins pipelines that deploy microservices to EKS and configure CloudFront, API Gateway and S3 static assets in one automated release.
+- Built an AI support agent with Claude Code, grounded in product knowledge documents and wrapped in guardrails, that investigates a reported issue in the target environment, classifies it as an application or infrastructure problem, writes the root cause analysis and raises a pull request with the fix for the owning team. It cut ad hoc support requests from developers by 60% and shortened the path from report to fix.
+- Built Jenkins pipelines that deploy about 20 microservices to EKS in each environment and configure CloudFront, API Gateway and S3 static assets in one automated release, used by four teams (development, QA, DevOps and support), each with its own pipelines.
 - Provisioned and managed AWS infrastructure (VPC, RDS, IAM, S3, EC2, EKS) with Terraform across 13 environments (8 non-production and 5 production), keeping them consistent and repeatable.
 - Implemented the Istio service mesh on EKS for secure, mutually authenticated service-to-service traffic.
 - Traced user-reported latency to missing edge caching and tuned CloudFront caching rules, improving page performance by 20%.
@@ -32,6 +32,7 @@ Hello there! 👋 I'm Sanket Vilas More, a Senior DevOps / Platform Engineer in 
 ### Tata Consultancy Services
 **Associate Consultant, DevOps Lead** · Mumbai, India / Toronto, ON · Sep 2015 to Jun 2023
 
+- Led and mentored a DevOps team of 6 engineers, owning delivery of CI/CD and infrastructure work for client programs.
 - Led the migration of CI/CD pipelines from Bitbucket and Bamboo to GitHub and Azure DevOps.
 - Implemented Terraform infrastructure as code for AWS, standardising how environments are provisioned.
 - Automated OpenShift application deployments through CI/CD pipelines.
@@ -46,7 +47,7 @@ Hello there! 👋 I'm Sanket Vilas More, a Senior DevOps / Platform Engineer in 
 ## Side project
 
 ### AI video automation platform
-**Personal** · 2025 to present
+**Personal** · 2026 to present
 
 - Directed a team of AI coding agents (Claude Code) to build an automated pipeline that writes, voices, animates and publishes explainer videos, defining the requirements, reviewing every change and setting the quality bar.
 - Operate it unattended on an Oracle Cloud VM: systemd timers, Git-based deploys, free-tier cost limits, and automated quality gates (fact checks, visual checks) that must pass before anything is published.
@@ -77,7 +78,7 @@ More on the pipelines and apps on the [Projects](/projects/) and [Studio](/studi
 | CI/CD | Jenkins, GitHub Actions, Azure DevOps Pipelines, Bitbucket, Bamboo, JFrog Artifactory |
 | Containers | Kubernetes (EKS), OpenShift, Docker, Karpenter, Istio |
 | Observability | Datadog, Splunk, Dynatrace, Prometheus |
-| Languages and OS | Python, Shell, TypeScript, Linux administration |
+| Languages and OS | Python, Shell, Linux administration |
 
 ## Education
 
