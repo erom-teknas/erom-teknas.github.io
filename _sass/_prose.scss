@@ -88,7 +88,7 @@
     opacity: 1;
   }
 
-  a:not(.heading-anchor):not(.tag-chip) {
+  a:not(.heading-anchor):not(.tag-chip):not(.cert-badge) {
     color: var(--accent);
     border-bottom: 1px solid var(--accent-line);
 
@@ -248,23 +248,47 @@
   }
 }
 
-/* The About page embeds Credly badges; reserve their size so the page does not jump when they load */
-.prose [data-share-badge-id] {
-  display: inline-block;
-  width: 150px;
-  height: 270px;
-  margin: 0 0.75rem 0.75rem 0;
-  vertical-align: top;
+/* Certification badges on the About page: local images, each linking to its Credly verification page */
+.prose .cert-badges {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 8.5rem));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+
+  li {
+    margin: 0;
+    padding: 0;
+
+    &::before {
+      content: none;
+    }
+  }
+
+  .cert-badge {
+    display: block;
+    border-radius: $radius;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+  }
 }
 
-.prose [data-share-badge-id] iframe {
-  margin: 0 !important;
-}
-
-.prose iframe[src*='credly'] {
-  display: inline-block;
-  margin: 0 0.75rem 0.75rem 0;
-  border: 1px solid var(--line) !important;
-  border-radius: $radius;
-  background: #fff;
+@media (max-width: $bp-md - 1) {
+  .prose .cert-badges {
+    grid-template-columns: repeat(2, minmax(0, 8.5rem));
+  }
 }

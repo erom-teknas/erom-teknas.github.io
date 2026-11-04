@@ -61,10 +61,12 @@ More on the pipelines and apps on the [Projects](/projects/) and [Studio](/studi
 - Certified Kubernetes Application Developer (CKAD)
 - HashiCorp Terraform Associate (003)
 
-<div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="497f884c-36ce-4d9a-a086-2b8a53a18e8f" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="https://cdn.credly.com/assets/utilities/embed.js"></script>
-<div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="d1d59333-bd95-422c-b6a4-cffb1795ea00" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="https://cdn.credly.com/assets/utilities/embed.js"></script>
-<div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="6150a3de-46f3-4724-b874-c009238cc3fb" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="https://cdn.credly.com/assets/utilities/embed.js"></script>
-<div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="7d12b458-e7f6-464a-ba1e-736f7a88b2b4" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="https://cdn.credly.com/assets/utilities/embed.js"></script>
+<ul class="cert-badges">
+  <li><a class="cert-badge" href="https://www.credly.com/badges/6150a3de-46f3-4724-b874-c009238cc3fb/public_url" target="_blank" rel="noopener noreferrer" title="Verify on Credly"><img src="/assets/images/certs/aws-devops-professional.png" width="160" height="160" alt="AWS Certified DevOps Engineer, Professional badge" loading="lazy" decoding="async"></a></li>
+  <li><a class="cert-badge" href="https://www.credly.com/badges/7d12b458-e7f6-464a-ba1e-736f7a88b2b4/public_url" target="_blank" rel="noopener noreferrer" title="Verify on Credly"><img src="/assets/images/certs/aws-developer-associate.png" width="160" height="160" alt="AWS Certified Developer, Associate badge" loading="lazy" decoding="async"></a></li>
+  <li><a class="cert-badge" href="https://www.credly.com/badges/d1d59333-bd95-422c-b6a4-cffb1795ea00/public_url" target="_blank" rel="noopener noreferrer" title="Verify on Credly"><img src="/assets/images/certs/ckad.png" width="160" height="160" alt="Certified Kubernetes Application Developer (CKAD) badge" loading="lazy" decoding="async"></a></li>
+  <li><a class="cert-badge" href="https://www.credly.com/badges/497f884c-36ce-4d9a-a086-2b8a53a18e8f/public_url" target="_blank" rel="noopener noreferrer" title="Verify on Credly"><img src="/assets/images/certs/terraform-associate.png" width="160" height="160" alt="HashiCorp Terraform Associate (003) badge" loading="lazy" decoding="async"></a></li>
+</ul>
 
 ## Skills
 
