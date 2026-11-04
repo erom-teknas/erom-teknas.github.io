@@ -3,7 +3,7 @@
 order: 6
 portrait: /assets/images/me/me-640.jpg
 ---
-Hello there! 👋 I'm Sanket Vilas More, a Senior DevOps / Platform Engineer in Toronto with 15 years in software delivery, 10 of them building cloud infrastructure and CI/CD on AWS, Kubernetes (EKS, OpenShift) and Terraform. Across three enterprises I've cut non-production cloud spend by 30%, cut user-facing latency by 20% and removed most manual release work. I build AI agents with Claude Code, at work and in my own time.
+Hello there! 👋 I'm Sanket Vilas More, a Senior DevOps / Platform Engineer in Toronto with 16 years in software delivery, 11 of them building cloud infrastructure and CI/CD on AWS, Kubernetes (EKS, OpenShift) and Terraform. Across three enterprises I've cut non-production cloud spend by 30%, cut user-facing latency by 20% and removed most manual release work. I build AI agents with Claude Code, at work and in my own time.
 
 > **Latest work:** at Roche I built an AI support agent with Claude Code. Grounded in product knowledge documents and wrapped in guardrails, it investigates a reported issue in the target environment, classifies it as an application or infrastructure problem, writes the root cause analysis and raises a pull request with the fix for the owning team. It drastically reduced ad hoc support requests from the development team.
 {: .prompt-info }
@@ -46,7 +46,7 @@ Hello there! 👋 I'm Sanket Vilas More, a Senior DevOps / Platform Engineer in 
 ## Side project
 
 ### AI video automation platform
-**Personal** · 2025 to present
+**Personal** · 2026 to present
 
 - Directed a team of AI coding agents (Claude Code) to build an automated pipeline that writes, voices, animates and publishes explainer videos, defining the requirements, reviewing every change and setting the quality bar.
 - Operate it unattended on an Oracle Cloud VM: systemd timers, Git-based deploys, free-tier cost limits, and automated quality gates (fact checks, visual checks) that must pass before anything is published.
