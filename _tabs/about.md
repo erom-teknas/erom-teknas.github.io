@@ -77,7 +77,7 @@ More on the pipelines and apps on the [Projects](/projects/) and [Studio](/studi
 | CI/CD | Jenkins, GitHub Actions, Azure DevOps Pipelines, Bitbucket, Bamboo, JFrog Artifactory |
 | Containers | Kubernetes (EKS), OpenShift, Docker, Karpenter, Istio |
 | Observability | Datadog, Splunk, Dynatrace, Prometheus |
-| Languages and OS | Python, Shell, TypeScript, Linux administration |
+| Languages and OS | Python, Shell, Linux administration |
 
 ## Education
 
