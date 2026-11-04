@@ -32,6 +32,7 @@ Hello there! 👋 I'm Sanket Vilas More, a Senior DevOps / Platform Engineer in 
 ### Tata Consultancy Services
 **Associate Consultant, DevOps Lead** · Mumbai, India / Toronto, ON · Sep 2015 to Jun 2023
 
+- Led and mentored a DevOps team of 6 engineers, owning delivery of CI/CD and infrastructure work for client programs.
 - Led the migration of CI/CD pipelines from Bitbucket and Bamboo to GitHub and Azure DevOps.
 - Implemented Terraform infrastructure as code for AWS, standardising how environments are provisioned.
 - Automated OpenShift application deployments through CI/CD pipelines.
