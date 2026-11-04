@@ -15,7 +15,7 @@ Hello there! 👋 I'm Sanket Vilas More, a Senior DevOps / Platform Engineer in 
 
 - Built scheduled shutdown of EKS worker nodes outside working hours with GitHub Actions and Karpenter, cutting compute cost by 30% across all 8 non-production environments.
 - Built an AI support agent with Claude Code, grounded in product knowledge documents and wrapped in guardrails, that investigates a reported issue in the target environment, classifies it as an application or infrastructure problem, writes the root cause analysis and raises a pull request with the fix for the owning team. It cut ad hoc support requests from developers by 60% and shortened the path from report to fix.
-- Built Jenkins pipelines that deploy microservices to EKS and configure CloudFront, API Gateway and S3 static assets in one automated release, used by four teams (development, QA, DevOps and support), each with its own pipelines.
+- Built Jenkins pipelines that deploy about 20 microservices to EKS in each environment and configure CloudFront, API Gateway and S3 static assets in one automated release, used by four teams (development, QA, DevOps and support), each with its own pipelines.
 - Provisioned and managed AWS infrastructure (VPC, RDS, IAM, S3, EC2, EKS) with Terraform across 13 environments (8 non-production and 5 production), keeping them consistent and repeatable.
 - Implemented the Istio service mesh on EKS for secure, mutually authenticated service-to-service traffic.
 - Traced user-reported latency to missing edge caching and tuned CloudFront caching rules, improving page performance by 20%.
