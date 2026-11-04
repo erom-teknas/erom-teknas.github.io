@@ -12,7 +12,8 @@ Personal technical blog (Jekyll, GitHub Pages). The theme is our own, in-repo; t
 
 - Post URLs (`/posts/:title/`), `/categories/<slug>/` and `/tags/<slug>/` are live links; category names include emoji, and their slugs (some odd, like `/categories/%EF%B8%8F-terraform/`) must not change.
 - Posts use Chirpy-era Markdown conventions that the theme still supports: `{: .light }`/`{: .dark }` paired screenshots, `{: .prompt-tip|info|warning|danger }` callouts, and image paths written as `../assets/...` or `assets/...` (rewritten in `_layouts/post.html`).
-- The explainer-engine (true-crime video pipeline) must never name or link its YouTube channel or on-screen persona anywhere on the site, including image text; describe it generically.
+- Never link any of the YouTube channels anywhere on the site (data files, posts, flows, footer). The explainer-engine (true-crime video pipeline) must also never name its channel or on-screen persona, including image text; describe it generically.
+- The About page (`_tabs/about.md`) mirrors Sanket's current resume; keep its facts and numbers exactly as the resume states them.
 - The Studio tab (`_data/studio.yml`) is cited in funding applications: every number on it must be verified from the project repos and dated in `as_of`. Never estimate or round up.
 - Posts can embed an interactive flow diagram with `{% include flow.html id="<name>" %}`, drawn from `_data/flows/<name>.yml` (schema at the top of `_includes/flow.html`). Keep its content true to the post's text.
 - Colours are CSS custom properties in `_sass/_tokens.scss`; the home page WebGL scene (`_js/topology.js`) reads its colours from the `--graph-*` tokens, so change them there, not in JS.

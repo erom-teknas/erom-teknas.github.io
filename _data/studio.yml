@@ -8,7 +8,8 @@ email: sanket@eromteknas.com
 
 lede: >-
   A one-person software studio run by Sanket More. It builds consumer apps and
-  automated video pipelines, with Claude as the engineering team.
+  automated video pipelines, all built with AI: Claude Code agents write the
+  code, and Sanket sets the requirements, reviews the work and runs them.
 
 # Shown as a small fact strip under the header
 stats:
@@ -25,7 +26,7 @@ products:
   - name: Pact
     kind: Web app
     status: Live
-    line: Group habit challenges with a live leaderboard. Friends join with a PIN and compete on five daily habits.
+    line: Group habit challenges with a live leaderboard. Friends join with a PIN and compete on five daily habits. Built with Claude Code agents.
     link:
       url: https://pact-deploy.vercel.app
       label: pact-deploy.vercel.app
@@ -33,7 +34,7 @@ products:
   - name: IronLog
     kind: Web app
     status: Live
-    line: An offline-first weightlifting tracker that keeps every workout on the phone, with no account or telemetry.
+    line: An offline-first weightlifting tracker that keeps every workout on the phone, with no account or telemetry. Built with Claude Code agents.
     link:
       url: https://iron-log-v1.vercel.app
       label: iron-log-v1.vercel.app
@@ -41,7 +42,7 @@ products:
   - name: Tripodiary
     kind: Web app
     status: Live
-    line: Collaborative trip planning, with a plan the group votes on and a chat for each trip.
+    line: Collaborative trip planning, with a plan the group votes on and a chat for each trip. Built with Claude Code agents.
     link:
       url: https://tripodiary.vercel.app
       label: tripodiary.vercel.app
@@ -49,7 +50,7 @@ products:
   - name: shorts-engine
     kind: Video pipeline
     status: Publishing
-    line: Turns long-form podcasts and streams into captioned vertical Shorts and publishes them to YouTube on a daily schedule.
+    line: Turns long-form podcasts and streams into captioned vertical Shorts and publishes them to YouTube on a daily schedule. Built with Claude Code agents.
     link:
       url: /posts/shorts-engine-autonomous-video-pipeline/
       label: How it works
@@ -57,7 +58,7 @@ products:
   - name: explainer-engine
     kind: Video pipeline
     status: Publishing
-    line: Researches, fact-checks, narrates and renders short true-crime explainers, only about cases a court has closed.
+    line: Researches, fact-checks, narrates and renders short true-crime explainers, only about cases a court has closed. Built with Claude Code agents.
     link:
       url: /posts/explainer-engine-fact-checked-true-crime/
       label: How it works
@@ -65,20 +66,7 @@ products:
   - name: Wat Happened
     kind: Video pipeline
     status: Publishing
-    line: Long-form cartoon history episodes with a paper-cut puppet host, made and scheduled weekly on YouTube.
-    link:
-      url: https://www.youtube.com/@wathappened
-      label: YouTube
-
-  - name: GLP-1 companion
-    kind: Mobile app
-    status: In design
-    line: A companion app for people taking GLP&#8209;1 medication.
-
-  - name: Spend dashboard
-    kind: Internal tool
-    status: Internal
-    line: Tracks the AI and API spend of the video pipelines per video, per step and per day against a monthly budget.
+    line: Long-form cartoon history episodes with a paper-cut puppet host, made and scheduled weekly on YouTube. Built with Claude Code agents.
 
 # How Claude is used. Keep each point verifiable.
 claude:

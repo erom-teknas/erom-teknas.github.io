@@ -14,7 +14,9 @@
   tagline: Group habit challenges with a live leaderboard.
   summary: >-
     Group habit challenges with a live leaderboard. Friends join a group with a
-    six-character PIN and compete on five daily habits.
+    six-character PIN and compete on five daily habits. Built with AI: I
+    directed Claude Code agents that wrote the code, and I set the
+    requirements, reviewed every change and run it.
   details:
     - The group votes on five shared habits, or each member picks their own five.
     - A done habit is a point and a perfect day adds a bonus; the table updates live.
@@ -33,7 +35,8 @@
   summary: >-
     A private, offline-first weightlifting tracker that installs to your home
     screen. Every workout is stored on the device, and cloud backup stays off
-    until you turn it on.
+    until you turn it on. Built with AI: Claude Code agents wrote the code to
+    my requirements, and I reviewed the work and run the app.
   details:
     - Logs sets, reps, weight and RPE, with a rest timer, supersets and a plate calculator.
     - Spots PRs by weight, volume and estimated 1RM, and charts strength and body weight over time.
@@ -53,7 +56,9 @@
   summary: >-
     An automated pipeline that researches, scripts, narrates and renders 40 to 60
     second true-crime explainers, only about cases a court has closed, such as a
-    conviction or a guilty plea, never an open investigation.
+    conviction or a guilty plea, never an open investigation. Built with AI:
+    I directed Claude Code agents that wrote it, set the rules it must follow,
+    reviewed every change and operate it.
   details:
     - JSON-driven Remotion compositions render vertical 1080x1920 video.
     - Scripts are written from a pinned Wikipedia article and checked claim by claim before rendering.
@@ -68,7 +73,9 @@
   tagline: Turns long-form video into captioned vertical shorts.
   summary: >-
     A self-hosted pipeline that turns long-form video, such as podcasts, interviews
-    and streams, into vertical 9:16 shorts with word-timed captions.
+    and streams, into vertical 9:16 shorts with word-timed captions. Built
+    with AI: Claude Code agents wrote the code while I set the requirements,
+    reviewed the output and run it.
   details:
     - Transcribes with Whisper, detects the active speaker and frames the shot around their face.
     - Cuts between wide and close shots on speaker changes and emphasis, like a hand-edited clip.
